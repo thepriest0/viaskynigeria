@@ -1,0 +1,41 @@
+/* One content width and one gutter scale throughout ViaSky. */
+:root{
+  --site-width:1280px;
+  --site-gutter:clamp(24px,4vw,64px);
+  --site-edge:max(var(--site-gutter),calc((100% - var(--site-width))/2));
+}
+.site-shell,.nav,.hero-content,.trusted-container,.faq-container{
+  width:min(var(--site-width),calc(100% - var(--site-gutter)*2));
+  max-width:var(--site-width);
+  margin-inline:auto;
+}
+.cinema-stage,.statement-sticky-stage{padding-inline:var(--site-edge)}
+.trusted-clients,.travel-intelligence{padding-inline:0}
+.trusted-container{padding-inline:0}
+@media(max-width:760px){:root{--site-gutter:24px}}
+
+/* Consistent section signposts and gentle arrivals extend the hero's type system. */
+.section-kicker{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.16em;font-weight:500;color:#647484;line-height:1.6;margin:0 0 22px}
+.section-kicker::before{content:'';width:25px;height:2px;background:#e7aa25;flex-shrink:0;transform-origin:left}
+.booking-intro{align-items:flex-end;padding-bottom:48px}
+.booking-intro h2,.stories-heading h2{font-family:Manrope,sans-serif;font-size:clamp(38px,4.3vw,62px);font-weight:500;letter-spacing:-.055em;line-height:1.09;text-transform:none;color:#123249;margin:0}
+.booking-intro h2 span,.stories-heading h2 span{color:#668194}
+.booking-intro>p{margin:0 0 5px;line-height:1.8}
+.booking-phrase h3{font-size:clamp(38px,4.5vw,65px);letter-spacing:-.055em}
+.booking-phrase em{font-family:Manrope,sans-serif;font-style:normal;font-weight:500;letter-spacing:-.055em;color:#668194}
+.booking-editorial{background:linear-gradient(#f2f7fa 0,white 190px);border-radius:36px 36px 0 0;padding-top:85px}
+.trusted-clients{background:linear-gradient(white 0,#f4f8fa 240px,#f4f8fa calc(100% - 180px),white 100%);padding-top:65px}
+.stories-heading{margin-bottom:48px}
+.trusted-info .traveller-count{font-family:Manrope,sans-serif;font-size:clamp(55px,5.6vw,80px);font-weight:500;line-height:1.1;letter-spacing:-.065em;color:#062b60;margin:0 0 12px}
+.traveller-count span{color:#a7791f}
+.trusted-info .traveller-count-label{font-size:15px;font-weight:600;color:#123249;margin-bottom:24px}
+.faq-sidebar-top h2 em{font-family:Manrope,sans-serif;font-style:normal;font-weight:500;color:#668194;letter-spacing:-.055em}
+.cinema-heading.is-in-view,.booking-intro.is-in-view,.stories-heading.is-in-view,.faq-sidebar-top.is-in-view{animation:section-arrive .85s var(--ease) both}
+.trusted-featured-card.is-in-view{animation:section-arrive 1s var(--ease) both}
+.is-in-view .section-kicker::before{animation:section-rule 1s var(--ease) both}
+@keyframes section-arrive{from{translate:0 22px;opacity:.4}to{translate:0 0;opacity:1}}
+@keyframes section-rule{from{transform:scaleX(.2)}to{transform:scaleX(1)}}
+@media(max-width:1100px) and (min-width:801px){.booking-phrase h3{font-size:clamp(32px,4.3vw,47px)}.booking-photo{flex-basis:105px}}
+@media(max-width:800px){.booking-phrase h3{font-size:clamp(30px,6.9vw,53px)}.booking-intro{padding-bottom:35px}.booking-intro>p{margin-top:23px}.booking-editorial{padding-top:60px}.stories-heading{margin-bottom:35px}.trusted-clients{padding-top:55px}.section-kicker{font-size:9px;margin-bottom:19px}}
+@media(max-width:390px){.booking-phrase h3{font-size:29px}}
+@media(prefers-reduced-motion:reduce){.cinema-heading,.booking-intro,.stories-heading,.faq-sidebar-top,.trusted-featured-card,.section-kicker::before{animation:none!important}}

@@ -1,0 +1,55 @@
+/* ViaSky's travel dossier — shared typography, paper, navy and gold. */
+.editorial-label{font-size:10px;font-weight:500;letter-spacing:.17em;line-height:1.6}
+.booking-journey{padding:35px clamp(24px,6vw,100px) 30px;background:#062b60;border-radius:0;color:#f8faf9}
+.journey-masthead,.journey-heading,.journey-layout,.journey-endnote{max-width:1280px;margin-inline:auto}
+.journey-masthead{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff30;padding-bottom:23px;color:#b9cbd9;font-size:9px;letter-spacing:.14em}
+.journey-masthead .editorial-label{color:#edc56f}
+.journey-heading{position:relative;padding:66px 0 53px}
+.journey-heading>.editorial-label{color:#edc56f;margin:0 0 24px}
+.journey-heading h2{font-family:Manrope,sans-serif;font-weight:400;font-size:clamp(44px,5.9vw,85px);line-height:1.08;letter-spacing:-.06em;margin:0}
+.journey-heading em,.chapter-title em,.window-caption em,.journey-endnote em,.faq-sidebar-top h2 em{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:-.045em}
+.journey-heading em{color:#edc56f}
+.journey-heading>p:last-child{font-size:14px;line-height:1.8;color:#b9cbd9;margin:25px 0 0}
+.journey-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(45px,7vw,105px);align-items:center;padding-bottom:65px}
+.journey-visual{position:relative;padding:0 24px 0 0;max-width:460px;width:100%;justify-self:center}
+.journey-window{position:relative;height:510px;border-radius:180px 180px 110px 110px;overflow:hidden;border:8px solid #254776;outline:1px solid #8ba5bb66;box-shadow:inset 0 0 0 10px #fff,0 24px 60px #00132b50;background:#0a3857}
+.journey-window::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,#001c39c9)}
+.journey-window img{height:100%;width:100%;object-fit:cover;object-position:var(--journey-position,50%) center;transition:object-position 1.2s var(--ease),transform 1.4s var(--ease)}
+.journey-visual:hover img{transform:scale(1.035)}
+.window-caption{position:absolute;bottom:40px;left:30px;right:20px;z-index:1;color:white}
+.window-caption>span{font-size:8px;letter-spacing:.2em;color:#f4d793}
+.window-caption p{font-family:Manrope,sans-serif;font-size:clamp(29px,3vw,43px);letter-spacing:-.045em;line-height:1.15;margin:14px 0 0}
+.journey-stamp{position:absolute;right:-12px;top:38px;width:106px;height:106px;border-radius:50%;background:#edc56f;color:#062b60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;transform:rotate(12deg);outline:1px dashed #062b60;outline-offset:-7px;box-shadow:0 6px 25px #001c3933}
+.journey-stamp span{font-size:8px;letter-spacing:.12em;font-weight:700}.journey-stamp svg{width:25px;height:25px}
+.journey-caption{display:flex;justify-content:space-between;gap:15px;margin:25px 0 0;font-size:8px;letter-spacing:.13em;color:#b9cbd9}
+.journey-chapters{min-width:0;border-top:1px solid #ffffff3b}
+.journey-chapter{border-bottom:1px solid #ffffff3b}
+.journey-chapter summary{display:flex;align-items:center;gap:20px;padding:29px 0;cursor:pointer;list-style:none}
+.journey-chapter summary::-webkit-details-marker{display:none}.journey-chapter summary::marker{content:''}
+.journey-chapter summary:focus-visible{outline:2px solid #edc56f;outline-offset:5px}
+.chapter-number{font-size:12px;color:#8faac2;align-self:flex-start;padding-top:3px;font-variant-numeric:tabular-nums}
+.chapter-title{display:flex;flex-direction:column;gap:12px}.chapter-title small{font-size:8px;letter-spacing:.18em;color:#b9cbd9}.chapter-title>span{font-family:Manrope,sans-serif;font-size:clamp(24px,2.6vw,38px);letter-spacing:-.045em;line-height:1.2}.chapter-title em{white-space:nowrap}
+.chapter-toggle{margin-left:auto;width:30px;height:30px;flex-shrink:0;border:1px solid #ffffff55;border-radius:50%;display:grid;place-items:center;font-size:20px;font-weight:400;transition:transform .4s,background .4s}
+.journey-chapter[open] .chapter-toggle{transform:rotate(45deg);background:#edc56f;color:#062b60;border-color:#edc56f}
+.journey-chapter[open] .chapter-number,.journey-chapter[open] .chapter-title em{color:#edc56f}
+.chapter-body{padding:0 36px 30px;animation:dossier-arrive .5s var(--ease)}
+.chapter-body p{font-size:14px;line-height:1.85;color:#c6d7e4;margin:0;max-width:440px}
+.chapter-footnote{font-size:8px;letter-spacing:.08em;line-height:1.8;color:#edc56f;margin-top:22px}.chapter-footnote i{font-style:normal;padding:0 6px}
+.journey-action{padding-top:32px}.journey-cta{display:flex;align-items:center;justify-content:space-between;gap:35px;border:0;border-radius:50px;padding:8px 8px 8px 25px;background:#edc56f;color:#062b60;font-size:13px;font-weight:600}.journey-cta>span{display:grid;place-items:center;background:#062b60;color:#fff;width:37px;height:37px;border-radius:50%;font-size:24px;transition:transform .3s}.journey-cta:hover>span{transform:rotate(45deg)}.journey-action p{font-size:10px;color:#b9cbd9;line-height:1.7;margin:14px 0 0}
+.journey-endnote{display:flex;align-items:center;justify-content:space-between;gap:25px;border-top:1px solid #ffffff30;padding-top:25px}.journey-endnote>span{display:flex;align-items:center;gap:20px;font-size:9px;letter-spacing:.14em}.journey-endnote svg{color:#edc56f;width:18px}.journey-endnote em{font-size:22px;color:#b9cbd9}
+/* A field guide, with fine ruled topics and a travel postcard. */
+.travel-intelligence{background:#ffffff;color:#123249;padding:95px clamp(24px,6vw,100px);border-top:1px solid #d9dfdf}
+.faq-container{max-width:1280px}.faq-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(45px,7vw,105px);align-items:start}
+.faq-sidebar{gap:28px}.faq-sidebar-top>.editorial-label{color:#607484;margin:0 0 28px}
+.faq-sidebar-top h2{font-size:clamp(45px,5.5vw,76px);font-weight:400;line-height:1.08;letter-spacing:-.055em;color:#062b60}.faq-sidebar-top h2 em{color:#887044}
+.faq-intro{color:#607484;font-size:14px;line-height:1.8;margin:23px 0 0}
+.faq-postcard{position:relative;max-width:370px;height:195px;overflow:hidden;transform:rotate(-3deg);border:7px solid #fff;box-shadow:0 8px 25px #17344c12;margin:8px 8px 8px 0}
+.faq-postcard::after{position:absolute;content:'';inset:0;background:linear-gradient(90deg,#062b60cc,transparent)}.faq-postcard img{width:100%;height:100%;object-fit:cover}.postcard-label{position:absolute;z-index:1;bottom:23px;left:20px;font-size:10px;letter-spacing:.13em;line-height:1.7;color:white}.postcard-mark{position:absolute;z-index:1;top:13px;right:14px;color:#edc56f;font-size:35px}
+.faq-sidebar-bottom{gap:8px}.faq-helper-text{color:#607484;font-size:12px}.faq-contact{display:flex;align-items:center;gap:36px;background:none;border:0;border-bottom:1px solid #b8c3c9;padding:7px 0 12px;color:#062b60;font-size:14px}.faq-contact>span{font-size:25px;color:#887044;transition:transform .3s}.faq-contact:hover>span{transform:translate(3px,-3px)}
+.faq-cards-stack{gap:0;border-top:1px solid #aab8bf}.faq-card{border:0;border-bottom:1px solid #b9c5ca;border-radius:0;padding:25px 0;background:transparent;box-shadow:none;transition:background .3s}.faq-card:hover{box-shadow:none}.faq-trigger{display:grid;grid-template-columns:1fr 34px;gap:15px 24px}.faq-topic{grid-column:1/-1;display:flex;gap:18px;align-items:center;font-size:8px;letter-spacing:.15em;color:#647886}.faq-topic>span{font-size:10px;letter-spacing:.05em;color:#887044;font-variant-numeric:tabular-nums}.faq-question{font-family:Manrope,sans-serif;color:#062b60;font-size:clamp(17px,1.65vw,22px);line-height:1.4;letter-spacing:-.025em;max-width:490px}.faq-icon-circle{width:32px;height:32px;min-width:32px;border-color:#9db0bd;color:#062b60}.faq-item[open] .faq-icon-circle{background:#062b60;border-color:#062b60;color:#edc56f}.faq-trigger:focus-visible{outline:2px solid #9b7219;outline-offset:7px;border-radius:0}.faq-answer{font-size:13px;line-height:1.85;color:#536b7b;padding:20px 52px 0 0}.faq-answer strong{color:#123249;font-weight:600}
+.booking-journey.is-in-view .journey-window,.travel-intelligence.is-in-view .faq-postcard{animation:dossier-arrive .9s var(--ease) both}
+@keyframes dossier-arrive{from{opacity:.3;translate:0 18px}to{opacity:1;translate:0 0}}
+@media(min-width:1400px){.journey-heading>p:last-child{position:absolute;right:0;bottom:58px;max-width:300px}.journey-heading h2{font-size:78px}}
+@media(max-width:1000px){.journey-layout,.faq-layout{gap:40px;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}.journey-window{height:450px}.journey-visual{padding-right:10px}.journey-stamp{right:-10px;width:90px;height:90px}.chapter-title>span{font-size:26px}.chapter-title em{white-space:normal}.chapter-body{padding-left:0;padding-right:0}.chapter-footnote{font-size:7px}.faq-answer{padding-right:0}}
+@media(max-width:700px){.booking-journey{padding:24px 23px}.journey-masthead>span:last-child{font-size:7px;max-width:125px;text-align:right;line-height:1.6}.journey-masthead .editorial-label{font-size:8px}.journey-heading{padding:45px 0 35px}.journey-heading>.editorial-label{font-size:8px;margin-bottom:20px}.journey-heading h2{font-size:clamp(38px,8.6vw,59px)}.journey-heading>p:last-child{font-size:12px;margin-top:20px}.journey-layout{grid-template-columns:1fr;gap:35px;padding-bottom:38px}.journey-visual{max-width:350px;padding:0 15px}.journey-window{height:350px;border-width:6px;border-radius:150px 150px 90px 90px}.journey-stamp{right:0;top:30px}.window-caption{bottom:28px;left:26px}.window-caption p{font-size:33px}.journey-caption{font-size:7px;margin-top:19px}.journey-chapter summary{padding:24px 0;gap:14px}.chapter-title>span{font-size:28px}.chapter-title small{font-size:7px}.chapter-body{padding-left:28px;padding-bottom:25px}.chapter-body p{font-size:13px}.journey-action{padding-top:25px}.journey-cta{width:100%}.journey-endnote{flex-direction:column;gap:17px;align-items:flex-start;padding-top:24px}.journey-endnote em{font-size:22px}.travel-intelligence{padding:60px 23px}.faq-layout{grid-template-columns:1fr;gap:38px}.faq-sidebar-top h2{font-size:55px}.faq-sidebar-top>.editorial-label{font-size:8px;margin-bottom:20px}.faq-sidebar{gap:22px}.faq-intro{font-size:13px;margin-top:18px}.faq-postcard{max-width:330px;width:calc(100% - 10px);height:160px}.faq-question{font-size:18px}.faq-card{padding:23px 0}.faq-answer{font-size:13px}.faq-trigger{column-gap:16px}.faq-topic{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.booking-journey *, .travel-intelligence *{animation:none!important;transition:none!important}.journey-visual:hover img{transform:none}}

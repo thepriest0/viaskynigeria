@@ -1,0 +1,48 @@
+/* One illustrated horizon joins the invitation to the footer. */
+.world-invitation{position:relative;z-index:9;background:#fff;color:#062b60;overflow:hidden;padding-top:clamp(65px,7vw,100px)}
+.invitation-copy{position:relative;z-index:2;text-align:center}
+.invitation-eyebrow{font-size:11px;letter-spacing:.16em;color:#617687;line-height:1.6;margin:0 0 26px}
+.invitation-copy h2{font-family:Manrope,sans-serif;font-weight:400;font-size:clamp(43px,5.3vw,76px);line-height:1.12;letter-spacing:-.055em;margin:0}
+.invitation-copy h2 em{font-family:'Playfair Display',Georgia,serif;font-weight:400;color:#a87921;letter-spacing:-.045em}
+.invitation-copy>p:not(.invitation-eyebrow){font-size:15px;color:#617687;line-height:1.85;margin:25px 0 25px}
+.invitation-button{display:inline-flex;align-items:center;gap:30px;padding:8px 8px 8px 25px;border:1px solid #062b60;border-radius:50px;background:#062b60;color:#fff;font-size:14px;font-weight:500;box-shadow:0 6px 18px #062b6014;transition:transform .25s,box-shadow .25s}
+.invitation-button>span{display:grid;place-items:center;width:39px;height:39px;background:#edc56f;color:#062b60;border-radius:50%}.invitation-button svg{width:21px;height:21px;transition:transform .25s}.invitation-button:hover{transform:translateY(-2px);box-shadow:0 9px 25px #062b6026}.invitation-button:hover svg{transform:rotate(45deg)}
+.world-panorama{position:relative;margin-top:clamp(-85px,-5vw,-35px);width:100%;line-height:0;background:#faf9f5}
+.world-panorama img{display:block;width:100%;height:auto}
+.world-panorama::before{content:'';position:absolute;z-index:1;inset:0 0 auto;height:22%;background:linear-gradient(#fff,transparent);pointer-events:none}
+.world-panorama::after{content:'';position:absolute;inset:auto 0 0;height:13%;background:linear-gradient(transparent,#062b60);pointer-events:none}
+.site-footer{position:relative;z-index:9;background:#062b60;color:#fff;padding:38px 0 0;margin-top:-1px}
+.footer-main{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.15fr;gap:45px;padding-top:25px;padding-bottom:65px}
+.footer-brand>a{display:inline-block}.footer-brand img{display:block;width:185px;height:auto}.footer-brand>p{font-size:13px;line-height:1.85;color:#bdcfe0;margin:21px 0 0}
+.footer-nav,.footer-start{min-width:0}.footer-nav{display:flex;flex-direction:column;align-items:flex-start;gap:13px}
+.footer-nav h2,.footer-start h2{font-size:13px;font-weight:500;color:#e9c575;margin:0 0 10px;line-height:1.6}
+.footer-nav a,.footer-nav button{font-size:13px;line-height:1.7;color:#d0deea;background:none;padding:0;border:0;text-align:left}.footer-nav a:hover,.footer-nav button:hover{color:#fff;text-decoration:underline;text-underline-offset:5px}
+.footer-start>p{color:#bdcfe0;font-size:13px;line-height:1.85;margin:0 0 19px}
+.footer-enquiry{display:flex;align-items:center;gap:23px;border:0;border-bottom:1px solid #ffffff44;background:none;color:#fff;padding:0 0 12px;font-size:13px}.footer-enquiry svg{color:#e9c575;width:18px;height:18px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid #ffffff24;padding-block:25px;color:#a9c0d4;font-size:11px;line-height:1.7}.footer-bottom p{margin:0}.footer-bottom>span{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:18px;color:#d2e0eb}.footer-bottom a{color:#d2e0eb}
+.invitation-copy.is-in-view h2{animation:invitation-arrive .8s var(--ease) both}
+@keyframes invitation-arrive{from{translate:0 18px;opacity:.5}to{translate:0 0;opacity:1}}
+@media(max-width:1000px){.footer-main{grid-template-columns:1.3fr 1fr 1fr;gap:35px}.footer-start{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:25px}.footer-start h2,.footer-start>p{margin:0}.footer-main{padding-bottom:40px}}
+@media(max-width:760px){.world-invitation{padding-top:55px}.invitation-eyebrow{font-size:9px;margin-bottom:23px}.invitation-copy h2{font-size:clamp(36px,8.5vw,55px);line-height:1.18}.invitation-copy>p:not(.invitation-eyebrow){font-size:13px;margin:21px 0 24px}.world-panorama{margin-top:10px;overflow:hidden}.world-panorama img{width:150%;max-width:none;margin-left:-25%}.world-panorama::before{height:20%}.world-panorama::after{height:15%}.footer-main{grid-template-columns:1fr 1fr;gap:35px 25px;padding-top:5px;padding-bottom:35px}.footer-brand{grid-column:1/-1}.footer-brand img{width:165px}.footer-brand>p{font-size:13px;margin-top:15px}.footer-start{display:block;border-top:1px solid #ffffff24;padding-top:26px}.footer-start h2{margin-bottom:10px}.footer-start>p{margin-bottom:18px}.footer-bottom{flex-wrap:wrap;padding-block:24px;gap:15px}.footer-bottom p{width:100%}.footer-bottom>span{font-size:17px}.site-footer{padding-top:20px}}
+@media(prefers-reduced-motion:reduce){.world-invitation *{animation:none!important;transition:none!important}}
+
+/* Footer content sits above the artwork; the illustration is the page's final edge. */
+.invitation-copy h2 em{font-family:Manrope,sans-serif;font-style:normal;font-weight:500;letter-spacing:-.055em;color:#668194}
+.world-invitation{padding-bottom:75px}
+.site-footer{background:#fff;color:#123249;padding-top:0;overflow:hidden}
+.footer-main{position:relative;z-index:2;border-top:1px solid #dce5e9;padding-top:48px;padding-bottom:42px}
+.footer-brand img{filter:brightness(0) saturate(100%) invert(15%) sepia(65%) saturate(1539%) hue-rotate(181deg) brightness(85%) contrast(105%)}
+.footer-brand>p,.footer-start>p{color:#617687}
+.footer-nav h2,.footer-start h2{color:#062b60;font-weight:600}
+.footer-nav a,.footer-nav button{color:#526d80}
+.footer-nav a:hover,.footer-nav button:hover{color:#062b60}
+.footer-enquiry{color:#062b60;border-color:#c8d5df}
+.footer-enquiry svg{color:#a7791f}
+.footer-bottom{position:relative;z-index:2;border-color:#dce5e9;color:#617687}
+.footer-bottom a{color:#062b60}
+.footer-bottom>span{font-family:Manrope,sans-serif;font-style:normal;font-size:12px;color:#617687}
+.world-panorama{margin-top:-70px;background:#faf9f5}
+.world-panorama::before{height:26%;background:linear-gradient(#fff,transparent)}
+.world-panorama::after{display:none}
+@media(min-width:761px){.world-panorama{margin-top:clamp(-260px,-13vw,-105px)}}
+@media(max-width:760px){.world-invitation{padding-bottom:55px}.footer-main{padding-top:35px}.footer-start{border-color:#dce5e9}.world-panorama{margin-top:-5px}.world-panorama img{width:100%;margin-left:0}.footer-bottom>span{font-size:12px}}

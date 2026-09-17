@@ -1,0 +1,5 @@
+Tool: built-in image generation
+Source: 04-alpine-adventure-viasky-plane.png
+Output: 04-alpine-adventure-viasky-plane-mobile.png
+
+Edit the supplied alpine ViaSky illustration into a true 9:16 portrait mobile website hero background (1080x1920). Preserve the exact cartoon/painterly style, vivid blue sky and lake, alpine mountains, lakeside village, navy and gold train on stone viaduct on right, flowers and wooden path foreground. Recompose the SAME scene for portrait, not a center crop. Upper 50% predominantly open blue sky for centered website headline and buttons. Place the same small white VIASKY airplane with navy/gold tail fully within the frame, around x=32%, y=16%, about 30% of frame width, flying right; leave top 10% for navigation and center y=25%-52% quiet and uncluttered for text. Mountains/lake/bridge occupy lower half with recognizable train on right and flowers at bottom. Preserve bright daylight, detailed brushwork, colors and brand on plane. No UI, no headline, no borders or added words other than VIASKY on plane. Output portrait 9:16.
