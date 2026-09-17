@@ -75,7 +75,7 @@ mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', 
 window.matchMedia('(min-width: 761px)').addEventListener('change', closeMenu);
 
 // =======================================================
-// VIA SKY LUXURY CONCIERGE MODAL & WHATSAPP INTEGRATION
+// VIA SKY LUXURY CONCIERGE MODAL & SERVICE WORKFLOWS
 // =======================================================
 const dialog = document.getElementById('concierge-dialog') || document.querySelector('.trip-dialog');
 const form = document.getElementById('trip-form') || document.querySelector('.brief-form');
@@ -84,11 +84,356 @@ const result = document.querySelector('.brief-result');
 // Business WhatsApp number: 08138252839 -> +234 813 825 2839
 const VIASKY_WHATSAPP_NUMBER = '2348138252839';
 
-// Set departure date minimum to today
-if (form && form.elements.departure) {
-  const today = new Date();
-  form.elements.departure.min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+// Service Configurations & Tailored Workflows
+const SERVICE_CONFIG = {
+  visa: {
+    key: 'visa',
+    serviceName: 'Visa Advisory & Protocol Assistance',
+    eyebrow: 'VIA SKY VISA PROTOCOL & IMMIGRATION DESK',
+    title: 'Visa Advisory & <em>Protocol Assistance.</em>',
+    desc: 'Ensure your visa application is thorough, accurate, and embassy-ready. A dedicated immigration advisor will review your documentation and guide your submission directly on WhatsApp.',
+    btnText: 'Send Visa Advisory Request',
+    fieldsetId: 'fieldset-visa',
+    validate(f) {
+      const dest = f.elements.visa_destination;
+      if (!dest || !dest.value.trim()) {
+        dest?.focus();
+        dest?.setCustomValidity('Please enter your destination country.');
+        dest?.reportValidity();
+        return false;
+      }
+      dest.setCustomValidity('');
+      return true;
+    },
+    formatMessage(f) {
+      const dest = (f.elements.visa_destination?.value || '').trim();
+      const visaType = f.elements.visa_type?.value || 'Tourist / Visitor Visa';
+      const date = f.elements.visa_date?.value || 'Flexible / To be confirmed';
+      const applicants = f.elements.visa_applicants?.value || '1 Applicant (Solo)';
+      const history = f.elements.visa_history?.value || 'First-Time Applicant';
+      const passport = (f.elements.visa_passport?.value || 'Nigerian Passport').trim();
+      const notes = (f.elements.visa_notes?.value || '').trim();
+
+      let msg = `Hello ViaSky Private Travel Desk,\n\n` +
+        `I would like to submit a Visa Advisory & Protocol Assistance request:\n\n` +
+        `• Service: Visa Advisory & Protocol Assistance\n` +
+        `• Destination Country: ${dest}\n` +
+        `• Visa Category: ${visaType}\n` +
+        `• Target Travel Date: ${date}\n` +
+        `• Applicants: ${applicants}\n` +
+        `• Passport / Nationality: ${passport}\n` +
+        `• Visa History: ${history}\n`;
+
+      if (notes) {
+        msg += `• Case Notes & Requests: ${notes}\n`;
+      }
+
+      msg += `\nPlease review my visa readiness and advise on document requirements. Thank you.`;
+      return msg;
+    }
+  },
+  flight: {
+    key: 'flight',
+    serviceName: 'Flight Bookings (Economy, Business, First)',
+    eyebrow: 'VIA SKY FLIGHT CONCIERGE',
+    title: 'Book your bespoke <em>flight.</em>',
+    desc: 'Access competitive corporate and luxury fares, priority seating, and tailored flight routing from Nigeria to any global destination.',
+    btnText: 'Send Flight Booking Request',
+    fieldsetId: 'fieldset-flight',
+    validate(f) {
+      const origin = f.elements.flight_origin;
+      const dest = f.elements.flight_destination;
+      const dept = f.elements.flight_departure;
+
+      if (!origin || !origin.value.trim()) {
+        origin?.focus();
+        origin?.setCustomValidity('Please enter your departure city or airport.');
+        origin?.reportValidity();
+        return false;
+      }
+      origin.setCustomValidity('');
+
+      if (!dest || !dest.value.trim()) {
+        dest?.focus();
+        dest?.setCustomValidity('Please enter your destination airport or city.');
+        dest?.reportValidity();
+        return false;
+      }
+      dest.setCustomValidity('');
+
+      if (!dept || !dept.value) {
+        dept?.focus();
+        dept?.setCustomValidity('Please select your departure date.');
+        dept?.reportValidity();
+        return false;
+      }
+      dept.setCustomValidity('');
+      return true;
+    },
+    formatMessage(f) {
+      const tripType = f.querySelector('input[name="flight_trip_type"]:checked')?.value || 'Round Trip';
+      const origin = (f.elements.flight_origin?.value || '').trim();
+      const dest = (f.elements.flight_destination?.value || '').trim();
+      const dept = f.elements.flight_departure?.value || 'Flexible';
+      const returnDate = f.elements.flight_return?.value;
+      const cabin = f.elements.flight_cabin?.value || 'Economy Class';
+      const passengers = f.elements.flight_passengers?.value || '1 Adult';
+      const airline = (f.elements.flight_airline?.value || '').trim();
+
+      let msg = `Hello ViaSky Flight Concierge,\n\n` +
+        `I would like to request flight options and fare quotes:\n\n` +
+        `• Service: Flight Bookings\n` +
+        `• Trip Type: ${tripType}\n` +
+        `• Departing From: ${origin}\n` +
+        `• Flying To: ${dest}\n` +
+        `• Departure Date: ${dept}\n`;
+
+      if (tripType === 'Round Trip' && returnDate) {
+        msg += `• Return Date: ${returnDate}\n`;
+      }
+
+      msg += `• Cabin Class: ${cabin}\n` +
+        `• Passengers: ${passengers}\n`;
+
+      if (airline) {
+        msg += `• Preferred Airline & Notes: ${airline}\n`;
+      }
+
+      msg += `\nPlease share available flight itineraries and booking details. Thank you.`;
+      return msg;
+    }
+  },
+  hotel: {
+    key: 'hotel',
+    serviceName: 'Hotels & Luxury Stays',
+    eyebrow: 'VIA SKY LUXURY SANCTUARIES',
+    title: 'Curated hotels & <em>luxury stays.</em>',
+    desc: 'Handpicked 5-star hotels, secluded beachfront villas, and executive suites worldwide with VIP privileges and seamless check-in.',
+    btnText: 'Send Accommodation Request',
+    fieldsetId: 'fieldset-hotel',
+    validate(f) {
+      const dest = f.elements.hotel_destination;
+      const cin = f.elements.hotel_checkin;
+      const cout = f.elements.hotel_checkout;
+
+      if (!dest || !dest.value.trim()) {
+        dest?.focus();
+        dest?.setCustomValidity('Please enter your destination city or area.');
+        dest?.reportValidity();
+        return false;
+      }
+      dest.setCustomValidity('');
+
+      if (!cin || !cin.value) {
+        cin?.focus();
+        cin?.setCustomValidity('Please choose your check-in date.');
+        cin?.reportValidity();
+        return false;
+      }
+      cin.setCustomValidity('');
+
+      if (!cout || !cout.value) {
+        cout?.focus();
+        cout?.setCustomValidity('Please choose your check-out date.');
+        cout?.reportValidity();
+        return false;
+      }
+      cout.setCustomValidity('');
+      return true;
+    },
+    formatMessage(f) {
+      const dest = (f.elements.hotel_destination?.value || '').trim();
+      const cin = f.elements.hotel_checkin?.value || 'TBD';
+      const cout = f.elements.hotel_checkout?.value || 'TBD';
+      const type = f.elements.hotel_type?.value || '5-Star Luxury Hotel';
+      const rooms = f.elements.hotel_rooms?.value || '2 Guests (1 Room)';
+      const board = f.elements.hotel_board?.value || 'Bed & Breakfast (B&B)';
+      const notes = (f.elements.hotel_notes?.value || '').trim();
+
+      let msg = `Hello ViaSky Luxury Sanctuaries Desk,\n\n` +
+        `I would like to enquire about curated hotel accommodations:\n\n` +
+        `• Service: Hotels & Luxury Stays\n` +
+        `• Destination City / Area: ${dest}\n` +
+        `• Check-in Date: ${cin}\n` +
+        `• Check-out Date: ${cout}\n` +
+        `• Property Type: ${type}\n` +
+        `• Rooms & Guests: ${rooms}\n` +
+        `• Board Preference: ${board}\n`;
+
+      if (notes) {
+        msg += `• Special Requests & Notes: ${notes}\n`;
+      }
+
+      msg += `\nPlease share curated property options, rates, and inclusions. Thank you.`;
+      return msg;
+    }
+  },
+  holiday: {
+    key: 'holiday',
+    serviceName: 'Complete Holiday (Flights, Hotels & Visas)',
+    eyebrow: 'VIA SKY SIGNATURE GETAWAYS',
+    title: 'Design your complete <em>holiday.</em>',
+    desc: 'From international flights and visa protocol to handpicked resorts and private excursions, we coordinate every single detail of your getaway.',
+    btnText: 'Send Holiday Request',
+    fieldsetId: 'fieldset-holiday',
+    validate(f) {
+      const dest = f.elements.holiday_destination;
+      if (!dest || !dest.value.trim()) {
+        dest?.focus();
+        dest?.setCustomValidity('Please enter your holiday destination.');
+        dest?.reportValidity();
+        return false;
+      }
+      dest.setCustomValidity('');
+      return true;
+    },
+    formatMessage(f) {
+      const dest = (f.elements.holiday_destination?.value || '').trim();
+      const origin = (f.elements.holiday_origin?.value || 'Flexible').trim();
+      const dept = f.elements.holiday_departure?.value || 'Flexible / To be confirmed';
+      const duration = f.elements.holiday_duration?.value || '7 Days (1 Week)';
+      const travellers = f.elements.holiday_travellers?.value || '2 Travellers (Couple)';
+      const scope = f.elements.holiday_scope?.value || 'All-Inclusive (Flights, Hotel, Visa & Tours)';
+      const style = f.elements.holiday_style?.value || 'Luxury Relaxation & Beach';
+      const notes = (f.elements.holiday_notes?.value || '').trim();
+
+      let msg = `Hello ViaSky Signature Getaways Desk,\n\n` +
+        `I would like to design a complete holiday itinerary:\n\n` +
+        `• Service: Complete Holiday Planning\n` +
+        `• Holiday Destination: ${dest}\n` +
+        `• Departing From: ${origin}\n` +
+        `• Travel Date / Window: ${dept}\n` +
+        `• Duration: ${duration}\n` +
+        `• Travellers: ${travellers}\n` +
+        `• Package Inclusions: ${scope}\n` +
+        `• Holiday Style: ${style}\n`;
+
+      if (notes) {
+        msg += `• Special Preferences / Celebration: ${notes}\n`;
+      }
+
+      msg += `\nPlease prepare a bespoke holiday proposal and itinerary. Thank you.`;
+      return msg;
+    }
+  },
+  custom: {
+    key: 'custom',
+    serviceName: 'Custom Bespoke Travel Itinerary',
+    eyebrow: 'VIA SKY PRIVATE TRAVEL DESK',
+    title: 'Plan your bespoke <em>journey.</em>',
+    desc: 'Tell us about your upcoming travel. A dedicated travel specialist will review your preferences and share tailored flight itineraries, curated stays, and visa advisory directly on WhatsApp.',
+    btnText: 'Send Booking Request',
+    fieldsetId: 'fieldset-custom',
+    validate(f) {
+      const dest = f.elements.custom_destination;
+      if (!dest || !dest.value.trim()) {
+        dest?.focus();
+        dest?.setCustomValidity('Please enter your destination or country.');
+        dest?.reportValidity();
+        return false;
+      }
+      dest.setCustomValidity('');
+      return true;
+    },
+    formatMessage(f) {
+      const dest = (f.elements.custom_destination?.value || '').trim();
+      const origin = (f.elements.custom_origin?.value || 'Flexible / To be confirmed').trim();
+      const dept = f.elements.custom_departure?.value || 'Flexible / To be confirmed';
+      const travellers = f.elements.custom_travellers?.value || '2 Travellers';
+      const style = f.elements.custom_style?.value || 'Leisure & Holiday';
+      const notes = (f.elements.custom_notes?.value || '').trim();
+
+      let msg = `Hello ViaSky Private Travel Desk,\n\n` +
+        `I would like to submit a booking request:\n\n` +
+        `• Service Required: Custom Bespoke Travel Itinerary\n` +
+        `• Departing From: ${origin}\n` +
+        `• Destination: ${dest}\n` +
+        `• Departure Date: ${dept}\n` +
+        `• Travellers: ${travellers}\n` +
+        `• Travel Style: ${style}\n`;
+
+      if (notes) {
+        msg += `• Notes & Preferences: ${notes}\n`;
+      }
+
+      msg += `\nPlease share curated flight schedules, luxury stays, and itinerary options. Thank you.`;
+      return msg;
+    }
+  }
+};
+
+function resolveServiceKey(match) {
+  if (!match) return 'holiday';
+  const m = match.toLowerCase();
+  if (m.includes('visa')) return 'visa';
+  if (m.includes('flight')) return 'flight';
+  if (m.includes('hotel') || m.includes('stay') || m.includes('accom')) return 'hotel';
+  if (m.includes('holiday') || m.includes('complete') || m.includes('tour')) return 'holiday';
+  if (m.includes('custom') || m.includes('bespoke')) return 'custom';
+  return 'holiday';
 }
+
+let activeServiceKey = 'holiday';
+
+// Set minimum date for all date inputs in the modal
+function setDateMinimums() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const minDateStr = `${yyyy}-${mm}-${dd}`;
+
+  if (form) {
+    const dateInputs = form.querySelectorAll('input[type="date"]');
+    dateInputs.forEach(input => {
+      input.min = minDateStr;
+    });
+
+    // Date chaining for hotels & flights
+    const cin = form.elements.hotel_checkin;
+    const cout = form.elements.hotel_checkout;
+    if (cin && cout) {
+      cin.addEventListener('change', () => {
+        if (cin.value) cout.min = cin.value;
+      });
+    }
+
+    const fDept = form.elements.flight_departure;
+    const fRet = form.elements.flight_return;
+    if (fDept && fRet) {
+      fDept.addEventListener('change', () => {
+        if (fDept.value) fRet.min = fDept.value;
+      });
+    }
+  }
+}
+setDateMinimums();
+
+// Trip Type segmented pills (Flight booking)
+function initTripTypePills() {
+  const tripPills = document.querySelectorAll('.trip-type-pill');
+  const returnWrap = document.getElementById('flight-return-wrap');
+  const parentRow = returnWrap?.closest('.form-row-3');
+
+  tripPills.forEach(pill => {
+    const radio = pill.querySelector('input[type="radio"]');
+    if (!radio) return;
+
+    radio.addEventListener('change', () => {
+      tripPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      if (radio.value === 'One Way') {
+        if (returnWrap) returnWrap.classList.add('is-hidden');
+        if (parentRow) parentRow.classList.add('has-hidden-return');
+      } else {
+        if (returnWrap) returnWrap.classList.remove('is-hidden');
+        if (parentRow) parentRow.classList.remove('has-hidden-return');
+      }
+    });
+  });
+}
+initTripTypePills();
 
 // 1. Reusable Custom Dropdown Component
 function initCustomSelect(container) {
@@ -127,7 +472,10 @@ function initCustomSelect(container) {
 
   const select = (option) => {
     const val = option.dataset.value;
-    if (hiddenInput) hiddenInput.value = val;
+    if (hiddenInput) {
+      hiddenInput.value = val;
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
     if (valueDisplay) valueDisplay.textContent = option.textContent.trim();
 
     options.forEach(opt => {
@@ -138,6 +486,12 @@ function initCustomSelect(container) {
     option.setAttribute('aria-selected', 'true');
     close();
     trigger.focus();
+
+    // If this is the main service selector, activate the service view
+    if (container.id === 'select-service') {
+      const newKey = resolveServiceKey(val);
+      activateServiceView(newKey, false);
+    }
   };
 
   options.forEach(option => {
@@ -157,42 +511,6 @@ function initCustomSelect(container) {
 }
 
 document.querySelectorAll('.custom-select').forEach(initCustomSelect);
-
-// Helper to pre-select a service option in custom dropdown
-function setCustomSelectValue(containerId, valueMatch) {
-  const container = document.getElementById(containerId);
-  if (!container || !valueMatch) return;
-  const match = valueMatch.toLowerCase();
-  const options = container.querySelectorAll('.select-option');
-  let targetOption = null;
-
-  options.forEach(opt => {
-    const val = (opt.dataset.value || opt.textContent).toLowerCase();
-    if (
-      val === match ||
-      val.includes(match) ||
-      (match.includes('visa') && val.includes('visa')) ||
-      (match.includes('flight') && val.includes('flight')) ||
-      ((match.includes('hotel') || match.includes('stay') || match.includes('accom')) && (val.includes('hotel') || val.includes('stay'))) ||
-      ((match.includes('holiday') || match.includes('tour')) && val.includes('holiday'))
-    ) {
-      if (!targetOption) targetOption = opt;
-    }
-  });
-
-  if (targetOption) {
-    options.forEach(opt => {
-      opt.classList.remove('is-active');
-      opt.setAttribute('aria-selected', 'false');
-    });
-    targetOption.classList.add('is-active');
-    targetOption.setAttribute('aria-selected', 'true');
-    const valSpan = container.querySelector('.select-value');
-    const hiddenInput = container.querySelector('input[type="hidden"]');
-    if (valSpan) valSpan.textContent = targetOption.textContent.trim();
-    if (hiddenInput) hiddenInput.value = targetOption.dataset.value;
-  }
-}
 
 // Close open dropdowns on outside click or Esc
 document.addEventListener('click', (e) => {
@@ -215,17 +533,85 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// 2. Modal Open & Triggers from [data-plan]
-document.querySelectorAll('[data-plan]').forEach(button => button.addEventListener('click', () => {
-  closeMenu();
-  const requestedService = button.dataset.service;
-  if (requestedService) {
-    setCustomSelectValue('select-service', requestedService);
+// Dynamic Service Activator
+function activateServiceView(key, updateDropdown = true) {
+  const config = SERVICE_CONFIG[key] || SERVICE_CONFIG.holiday;
+  activeServiceKey = config.key;
+
+  // 1. Update modal header
+  const eyebrowEl = document.getElementById('trip-eyebrow');
+  const titleEl = document.getElementById('trip-title');
+  const descEl = document.getElementById('trip-desc');
+  const submitBtnEl = document.getElementById('trip-submit-btn');
+
+  if (eyebrowEl) eyebrowEl.textContent = config.eyebrow;
+  if (titleEl) titleEl.innerHTML = config.title;
+  if (descEl) descEl.textContent = config.desc;
+  if (submitBtnEl) {
+    const btnTextSpan = submitBtnEl.querySelector('.btn-text');
+    if (btnTextSpan) btnTextSpan.textContent = config.btnText;
   }
+
+  // 2. Sync main service dropdown if requested
+  if (updateDropdown) {
+    const serviceSelect = document.getElementById('select-service');
+    if (serviceSelect) {
+      const options = serviceSelect.querySelectorAll('.select-option');
+      let matchedOpt = null;
+      options.forEach(opt => {
+        const val = opt.dataset.value || '';
+        if (val.toLowerCase().includes(config.key) || (config.key === 'holiday' && val.toLowerCase().includes('holiday'))) {
+          matchedOpt = opt;
+        }
+      });
+      if (matchedOpt) {
+        options.forEach(opt => {
+          opt.classList.remove('is-active');
+          opt.setAttribute('aria-selected', 'false');
+        });
+        matchedOpt.classList.add('is-active');
+        matchedOpt.setAttribute('aria-selected', 'true');
+        const valDisplay = serviceSelect.querySelector('.select-value');
+        const hiddenInput = serviceSelect.querySelector('input[type="hidden"]');
+        if (valDisplay) valDisplay.textContent = matchedOpt.textContent.trim();
+        if (hiddenInput) hiddenInput.value = matchedOpt.dataset.value;
+      }
+    }
+  }
+
+  // 3. Toggle fieldsets and disable inactive inputs so HTML5 validation passes cleanly
+  const allFieldsets = document.querySelectorAll('.service-fieldset');
+  allFieldsets.forEach(fs => {
+    const isCurrent = fs.id === config.fieldsetId;
+    if (isCurrent) {
+      fs.classList.add('is-active');
+      fs.querySelectorAll('input, select, textarea').forEach(input => {
+        input.disabled = false;
+        input.setCustomValidity('');
+      });
+    } else {
+      fs.classList.remove('is-active');
+      fs.querySelectorAll('input, select, textarea').forEach(input => {
+        input.disabled = true;
+        input.setCustomValidity('');
+      });
+    }
+  });
+
+  // Clear any existing feedback text
   if (result) {
     result.textContent = '';
     result.className = 'brief-result full';
   }
+}
+
+// 2. Modal Open & Triggers from [data-plan]
+document.querySelectorAll('[data-plan]').forEach(button => button.addEventListener('click', () => {
+  closeMenu();
+  const requestedService = button.dataset.service;
+  const targetKey = resolveServiceKey(requestedService);
+  activateServiceView(targetKey, true);
+
   if (dialog) dialog.showModal();
 }));
 
@@ -239,40 +625,22 @@ if (dialog) {
   });
 }
 
+// Initialize default view (Complete Holiday or Custom)
+activateServiceView('holiday', true);
+
 // 4. Form Submission & Executive WhatsApp Payload
 if (form) {
   form.addEventListener('submit', event => {
     event.preventDefault();
-    const values = new FormData(form);
-    const destination = String(values.get('destination') || '').trim();
-    if (!destination) {
-      form.elements.destination?.setCustomValidity('Please enter your destination or country.');
-      form.elements.destination?.reportValidity();
+
+    const config = SERVICE_CONFIG[activeServiceKey] || SERVICE_CONFIG.holiday;
+
+    // Validate the active service fields
+    if (!config.validate(form)) {
       return;
     }
 
-    const service = values.get('service') || 'Complete Holiday & Stays';
-    const origin = String(values.get('origin') || '').trim() || 'Flexible / To be confirmed';
-    const departure = values.get('departure') || 'Flexible / To be confirmed';
-    const travellers = values.get('travellers') || '2 Travellers';
-    const style = values.get('style') || 'Leisure & Holiday';
-    const notes = String(values.get('notes') || '').trim();
-
-    let message = `Hello ViaSky Private Travel Desk,\n\n` +
-      `I would like to submit a booking request:\n\n` +
-      `• Service Required: ${service}\n` +
-      `• Departing From: ${origin}\n` +
-      `• Destination: ${destination}\n` +
-      `• Departure Date: ${departure}\n` +
-      `• Travellers: ${travellers}\n` +
-      `• Travel Style: ${style}\n`;
-
-    if (notes) {
-      message += `• Notes & Preferences: ${notes}\n`;
-    }
-
-    message += `\nPlease share curated flight schedules, luxury stays, and itinerary options. Thank you.`;
-
+    const message = config.formatMessage(form);
     const whatsappUrl = `https://wa.me/${VIASKY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
     if (result) {
@@ -290,9 +658,13 @@ if (form) {
     }, 400);
   });
 
-  if (form.elements.destination) {
-    form.elements.destination.addEventListener('input', () => form.elements.destination.setCustomValidity(''));
-  }
+  // Clear custom validity on input for destination fields
+  ['visa_destination', 'flight_origin', 'flight_destination', 'hotel_destination', 'holiday_destination', 'custom_destination'].forEach(fieldName => {
+    const el = form.elements[fieldName];
+    if (el) {
+      el.addEventListener('input', () => el.setCustomValidity(''));
+    }
+  });
 }
 
 // --- World-Class Hero Dynamics: 2.5D Parallax, Atmospheric Particles, & Tactile Physics ---
