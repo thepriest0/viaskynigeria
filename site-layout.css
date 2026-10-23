@@ -23,8 +23,8 @@
 .booking-intro>p{margin:0 0 5px;line-height:1.8}
 .booking-phrase h3{font-size:clamp(38px,4.5vw,65px);letter-spacing:-.055em}
 .booking-phrase em{font-family:Manrope,sans-serif;font-style:normal;font-weight:500;letter-spacing:-.055em;color:#668194}
-.booking-editorial{background:linear-gradient(#f2f7fa 0,white 190px);border-radius:36px 36px 0 0;padding-top:85px}
-.trusted-clients{background:linear-gradient(white 0,#f4f8fa 240px,#f4f8fa calc(100% - 180px),white 100%);padding-top:65px}
+.booking-editorial{background:#ffffff;border-radius:36px 36px 0 0;padding-top:85px}
+.trusted-clients{background:#ffffff;padding-top:65px}
 .stories-heading{margin-bottom:48px}
 .trusted-info .traveller-count{font-family:Manrope,sans-serif;font-size:clamp(55px,5.6vw,80px);font-weight:500;line-height:1.1;letter-spacing:-.065em;color:#062b60;margin:0 0 12px}
 .traveller-count span{color:#a7791f}

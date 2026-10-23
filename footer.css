@@ -7,7 +7,7 @@
 .invitation-copy>p:not(.invitation-eyebrow){font-size:15px;color:#617687;line-height:1.85;margin:25px 0 25px}
 .invitation-button{display:inline-flex;align-items:center;gap:30px;padding:8px 8px 8px 25px;border:1px solid #062b60;border-radius:50px;background:#062b60;color:#fff;font-size:14px;font-weight:500;box-shadow:0 6px 18px #062b6014;transition:transform .25s,box-shadow .25s}
 .invitation-button>span{display:grid;place-items:center;width:39px;height:39px;background:#edc56f;color:#062b60;border-radius:50%}.invitation-button svg{width:21px;height:21px;transition:transform .25s}.invitation-button:hover{transform:translateY(-2px);box-shadow:0 9px 25px #062b6026}.invitation-button:hover svg{transform:rotate(45deg)}
-.world-panorama{position:relative;margin-top:clamp(-85px,-5vw,-35px);width:100%;line-height:0;background:#faf9f5}
+.world-panorama{position:relative;margin-top:clamp(-85px,-5vw,-35px);width:100%;line-height:0;background:#ffffff}
 .world-panorama img{display:block;width:100%;height:auto}
 .world-panorama::before{content:'';position:absolute;z-index:1;inset:0 0 auto;height:22%;background:linear-gradient(#fff,transparent);pointer-events:none}
 .world-panorama::after{content:'';position:absolute;inset:auto 0 0;height:13%;background:linear-gradient(transparent,#062b60);pointer-events:none}
@@ -41,7 +41,7 @@
 .footer-bottom{position:relative;z-index:2;border-color:#dce5e9;color:#617687}
 .footer-bottom a{color:#062b60}
 .footer-bottom>span{font-family:Manrope,sans-serif;font-style:normal;font-size:12px;color:#617687}
-.world-panorama{margin-top:-70px;background:#faf9f5}
+.world-panorama{margin-top:-70px;background:#ffffff}
 .world-panorama::before{height:26%;background:linear-gradient(#fff,transparent)}
 .world-panorama::after{display:none}
 @media(min-width:761px){.world-panorama{margin-top:clamp(-260px,-13vw,-105px)}}
