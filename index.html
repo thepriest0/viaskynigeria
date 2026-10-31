@@ -20,80 +20,59 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="assets/v2-concepts/04-alpine-adventure-viasky-plane.png" media="(min-width: 761px)" />
   <link rel="preload" as="image" href="assets/v2-concepts/04-alpine-adventure-viasky-plane-mobile.png" media="(max-width: 760px)" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="journey.css" />
-  <link rel="stylesheet" href="booking.css" />
-  <link rel="stylesheet" href="site-layout.css" />
-  <link rel="stylesheet" href="footer.css" />
-  <link rel="stylesheet" href="faq.css" />
+  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="preloader.css?v=10" />
+  <link rel="stylesheet" href="site-layout.css?v=10" />
+  <link rel="stylesheet" href="sections.css?v=10" />
+  <link rel="stylesheet" href="booking-modal.css?v=10" />
+  <link rel="stylesheet" href="footer.css?v=10" />
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<!-- ViaSky Flight Preloader -->
-<div class="preloader" id="preloader" role="status" aria-live="polite">
-  <div class="preloader-sky" aria-hidden="true">
-    <div class="cloud-layer c1"></div>
-    <div class="cloud-layer c2"></div>
-    <div class="cloud-layer c3"></div>
-  </div>
-  <div class="flight-stage" aria-hidden="true">
-    <div class="jetstream">
-      <svg class="contrail-svg" viewBox="0 0 300 60" fill="none">
-        <path class="contrail-line upper" d="M10 24 Q 160 16 260 25" stroke="url(#contrail-grad)" stroke-width="2.5" stroke-linecap="round"/>
-        <path class="contrail-line lower" d="M25 32 Q 170 38 260 31" stroke="url(#contrail-grad)" stroke-width="2.5" stroke-linecap="round"/>
+<!-- ViaSky preloader: a takeoff roll, rotation and climb-out -->
+<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Loading ViaSky">
+  <div class="pl-top"><img src="assets/viasky-logo-white-transparent.png" alt="ViaSky" class="pl-logo" /><span>From Nigeria. To everywhere.</span></div>
+  <div class="pl-scene" id="pl-scene" aria-hidden="true">
+    <div class="pl-skyline"></div>
+    <div class="pl-runway">
+      <span class="pl-lights pl-lights--far"></span>
+      <span class="pl-centerline"></span>
+      <span class="pl-lights pl-lights--near"></span>
+    </div>
+    <div class="pl-jet" id="pl-jet">
+      <span class="pl-trail"></span>
+      <svg class="pl-jet-svg" viewBox="0 0 400 120">
         <defs>
-          <linearGradient id="contrail-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#e7aa25" stop-opacity="0"/>
-            <stop offset="45%" stop-color="#e7aa25" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.95"/>
-          </linearGradient>
+          <linearGradient id="pl-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".62" stop-color="#e9edf2"/><stop offset="1" stop-color="#b9c3cf"/></linearGradient>
+          <linearGradient id="pl-wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfd7e0"/><stop offset="1" stop-color="#8f9cab"/></linearGradient>
         </defs>
-      </svg>
-    </div>
-    <div class="airplane-vessel">
-      <svg class="airplane-svg" viewBox="0 0 160 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <filter id="jet-glow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="2.5" result="blur"/>
-          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-        </filter>
-        <path d="M68 44 L38 68 L48 68 L82 46 Z" fill="#031e42" opacity="0.9"/>
-        <path d="M18 40 C18 33 26 30 42 29 C72 28 118 28 144 33 C154 35 158 38 158 40 C158 42 154 45 144 47 C118 52 72 52 42 51 C26 50 18 47 18 40 Z" fill="#ffffff"/>
-        <path d="M136 34 C142 35.5 147 37.5 149 40 C145 40.5 137 40 134 38 Z" fill="#062b60"/>
-        <circle cx="120" cy="38" r="1.5" fill="#0b5d99"/>
-        <circle cx="112" cy="38" r="1.5" fill="#0b5d99"/>
-        <circle cx="104" cy="38" r="1.5" fill="#0b5d99"/>
-        <circle cx="96" cy="38" r="1.5" fill="#0b5d99"/>
-        <circle cx="88" cy="38" r="1.5" fill="#0b5d99"/>
-        <circle cx="80" cy="38" r="1.5" fill="#0b5d99"/>
-        <circle cx="72" cy="38" r="1.5" fill="#0b5d99"/>
-        <path d="M26 34 L12 11 L24 11 L44 32 Z" fill="#062b60"/>
-        <path d="M14 11 L19 11 L35 27 L30 27 Z" fill="#e7aa25"/>
-        <path d="M72 38 L96 15 L108 15 L88 38 Z" fill="#ffffff"/>
-        <path d="M82 31 L90 23 L94 23 L86 31 Z" fill="#e7aa25" opacity="0.9"/>
-        <rect x="74" y="44" width="22" height="7" rx="3.5" fill="#062b60"/>
-        <ellipse cx="74" cy="47.5" rx="2.5" ry="3.5" fill="#e7aa25" filter="url(#jet-glow)"/>
-        <ellipse cx="96" cy="47.5" rx="1.5" ry="3" fill="#0b5d99"/>
-        <circle cx="96" cy="15" r="1.6" fill="#f9d273" class="wing-beacon"/>
+        <path d="M34 50 L10 6 L38 6 L84 48 Z" fill="#dfe5ec"/>
+        <path d="M18 9 L28 9 L56 37 L46 37 Z" fill="#e7aa25"/>
+        <path d="M20 62 C20 52 34 48 62 47 L330 45 C354 45 372 50 386 57 C393 61 393 66 386 69 C371 75 352 77 330 77 L62 77 C34 76 20 71 20 62 Z" fill="url(#pl-body)"/>
+        <path d="M24 66 C60 69 300 70 388 64 L386 69 C371 75 352 77 330 77 L62 77 C40 76 28 72 24 66 Z" fill="#aab6c3"/>
+        <path d="M30 64.5 C120 66 300 66.5 389 62.5" stroke="#e7aa25" stroke-width="2" fill="none"/>
+        <path d="M352 51 C360 51 370 53 377 57 L357 57 Z" fill="#1b2a3c"/>
+        <g fill="#1b2a3c" opacity=".8"><circle cx="96" cy="56" r="1.9"/><circle cx="108" cy="56" r="1.9"/><circle cx="120" cy="56" r="1.9"/><circle cx="132" cy="56" r="1.9"/><circle cx="144" cy="56" r="1.9"/><circle cx="156" cy="56" r="1.9"/><circle cx="168" cy="56" r="1.9"/><circle cx="222" cy="55.5" r="1.9"/><circle cx="234" cy="55.5" r="1.9"/><circle cx="246" cy="55.5" r="1.9"/><circle cx="258" cy="55.5" r="1.9"/><circle cx="270" cy="55.5" r="1.9"/><circle cx="282" cy="55.5" r="1.9"/><circle cx="294" cy="55.5" r="1.9"/><circle cx="306" cy="55" r="1.9"/><circle cx="318" cy="55" r="1.9"/></g>
+        <rect x="186" y="49" width="7" height="14" rx="2" fill="none" stroke="#9aa6b4" stroke-width="1"/>
+        <path d="M6 58 L48 61 L52 66 L14 64 Z" fill="#8f9cab"/>
+        <g class="pl-gear">
+          <path d="M206 76 L206 101 M214 76 L214 101 M344 75 L344 102" stroke="#9aa6b4" stroke-width="2.4"/>
+          <circle cx="206" cy="104" r="5.4" fill="#4a5664"/><circle cx="216" cy="104" r="5.4" fill="#4a5664"/><circle cx="344" cy="105" r="4.2" fill="#4a5664"/>
+        </g>
+        <path d="M168 66 L262 68 L224 96 L204 96 Z" fill="url(#pl-wing)"/>
+        <rect x="200" y="80" width="62" height="17" rx="8.5" fill="#dfe5ec"/>
+        <rect x="200" y="80" width="62" height="17" rx="8.5" fill="none" stroke="#9aa6b4" stroke-width="1"/>
+        <ellipse cx="261" cy="88.5" rx="3" ry="7.5" fill="#1b232d"/>
+        <circle class="pl-beacon" cx="150" cy="45" r="2.2" fill="#ff4d4d"/>
+        <circle class="pl-strobe" cx="11" cy="7" r="2" fill="#ffffff"/>
       </svg>
     </div>
   </div>
-  <div class="preloader-content">
-    <div class="preloader-brand">
-      <img src="assets/viasky-logo-white-transparent.png" alt="ViaSky" class="preloader-logo"/>
-    </div>
-    <div class="preloader-status">
-      <p class="status-msg" id="preloader-msg">Preparing your departure...</p>
-      <div class="telemetry-bar">
-        <span class="telemetry-code">LOS</span>
-        <div class="flight-route-track">
-          <div class="flight-progress-fill" id="preloader-progress"></div>
-          <div class="flight-mini-jet" id="preloader-jet">✈</div>
-        </div>
-        <span class="telemetry-code">EVERYWHERE</span>
-      </div>
-      <p class="telemetry-sub"><span id="preloader-sub">Personal travel brief & flights</span> · <span id="preloader-pct">0%</span></p>
-    </div>
+  <div class="pl-bottom">
+    <p class="pl-route"><span>LOS</span><i aria-hidden="true"></i><span id="preloader-dest">LHR</span><small id="preloader-city">London</small></p>
+    <p class="pl-count"><span id="preloader-pct">0</span></p>
   </div>
+  <div class="pl-bar"><span id="preloader-progress"></span></div>
 </div>
 <svg class="icon-library" aria-hidden="true"><defs>
   <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></symbol>
@@ -107,9 +86,9 @@
     <a class="logo" href="#home" aria-label="ViaSky home"><img src="assets/viasky-logo-white-transparent.png" alt="ViaSky — Explore. Dream. Go." /></a>
     <div class="nav-links" id="navigation">
       <a href="#about">Why ViaSky</a>
-      <a href="#services">Our services</a>
+      <a href="#services">Services</a>
+      <a href="#destinations">Destinations</a>
       <a href="#how-it-works">How it works</a>
-      <a href="#stories">Stories</a>
       <a href="#faq">FAQs</a>
     </div>
     <div class="nav-actions"><button class="nav-cta" data-plan>Let’s talk travel <span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button><button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation"><span></span><span></span></button></div>
@@ -145,26 +124,25 @@
         </i>
         <span class="btn-sheen" aria-hidden="true"></span>
       </button>
-      <a class="secondary-button" href="#about">
-        <span>Find my kind of escape</span>
+      <a class="secondary-button" href="#destinations">
+        <span>See where we fly</span>
         <svg class="arrow-icon" aria-hidden="true"><use href="#arrow" /></svg>
       </a>
     </div>
     <p class="service-note">
-      <span class="service-pill">Flights</span><span class="service-dot">·</span>
-      <span class="service-pill">Stays</span><span class="service-dot">·</span>
       <span class="service-pill">Visas</span><span class="service-dot">·</span>
-      <span class="service-pill">Experiences</span>
+      <span class="service-pill">Flights</span><span class="service-dot">·</span>
+      <span class="service-pill">Hotels</span><span class="service-dot">·</span>
+      <span class="service-pill">Umrah</span><span class="service-dot">·</span>
+      <span class="service-pill">Holidays</span>
     </p>
   </main>
 </header>
 <section class="statement-pin-section" id="about" aria-labelledby="statement-badge">
   <div class="statement-sticky-stage" id="statement-stage">
     <div class="statement-badge-wrap">
-      <span class="badge-line left" aria-hidden="true"><i class="badge-dot"></i></span>
-      <span class="statement-badge" id="statement-badge">About ViaSky</span>
-      <span class="badge-line right" aria-hidden="true"><i class="badge-dot"></i></span>
-    </div>
+            <span class="statement-badge tag" id="statement-badge"><i aria-hidden="true">+</i>About ViaSky</span>
+          </div>
     <h2 class="statement-headline" id="statement-text">
       <span class="scroll-word">We</span>
       <span class="scroll-word">are</span>
@@ -201,300 +179,229 @@
 
     <div class="statement-deck" id="statement-deck" aria-label="Featured destinations">
       <div class="statement-cards" id="statement-cards">
-        <!-- Card 0: London -->
-        <article class="statement-card active" data-index="0">
+        <article class="statement-card active" data-index="0" data-name="London">
           <div class="card-inner">
-            <img class="card-img" src="assets/destinations/london.jpg" alt="London Arrival" loading="eager" />
+            <img class="card-img" src="assets/destinations/london.jpg" alt="Travellers arriving in London" loading="eager" />
             <div class="card-vignette" aria-hidden="true"></div>
-            <div class="card-title">
-              <em>London</em>
-              <span>Arrival</span>
-            </div>
+            <div class="card-title"><em>London</em><span>United Kingdom</span></div>
+            <p class="card-tag">Visit &amp; student visas</p>
           </div>
         </article>
-
-        <!-- Card 1: Zanzibar -->
-        <article class="statement-card next" data-index="1">
+        <article class="statement-card next" data-index="1" data-name="Dubai">
           <div class="card-inner">
-            <img class="card-img" src="assets/destinations/zanzibar.jpg" alt="Zanzibar Escape" loading="lazy" />
+            <img class="card-img" src="assets/destinations/dubai.jpg" alt="The Dubai skyline" loading="lazy" />
             <div class="card-vignette" aria-hidden="true"></div>
-            <div class="card-title">
-              <em>Zanzibar</em>
-              <span>Escape</span>
-            </div>
+            <div class="card-title"><em>Dubai</em><span>United Arab Emirates</span></div>
+            <p class="card-tag">Shopping &amp; leisure</p>
           </div>
         </article>
-
-        <!-- Card 2: Dubai -->
-        <article class="statement-card hidden-right" data-index="2">
+        <article class="statement-card hidden-right" data-index="2" data-name="Zanzibar">
           <div class="card-inner">
-            <img class="card-img" src="assets/destinations/dubai.jpg" alt="Dubai Horizons" loading="lazy" />
+            <img class="card-img" src="assets/destinations/zanzibar.jpg" alt="A beach walk in Zanzibar" loading="lazy" />
             <div class="card-vignette" aria-hidden="true"></div>
-            <div class="card-title">
-              <em>Dubai</em>
-              <span>Horizons</span>
-            </div>
+            <div class="card-title"><em>Zanzibar</em><span>Tanzania</span></div>
+            <p class="card-tag">Beach holiday</p>
           </div>
         </article>
-
-        <!-- Card 3: Rwanda -->
-        <article class="statement-card prev" data-index="3">
+        <article class="statement-card prev" data-index="3" data-name="Marrakech">
           <div class="card-inner">
-            <img class="card-img" src="assets/destinations/rwanda.jpg" alt="Rwanda Sanctuary" loading="lazy" />
+            <img class="card-img" src="assets/v2-concepts/03-desert-retreat.png" alt="A riad pool overlooking desert dunes" loading="lazy" />
             <div class="card-vignette" aria-hidden="true"></div>
-            <div class="card-title">
-              <em>Rwanda</em>
-              <span>Sanctuary</span>
-            </div>
+            <div class="card-title"><em>Marrakech</em><span>Morocco</span></div>
+            <p class="card-tag">Riads &amp; desert</p>
           </div>
         </article>
+      </div>
+      <div class="deck-progress">
+        <span class="deck-count" aria-hidden="true"><b id="deck-current">01</b>/04</span>
+                <a class="deck-more" href="#destinations">See all 12 destinations</a>
       </div>
     </div>
   </div>
 </section>
-<section class="service-cinema" id="services" aria-labelledby="services-heading">
-  <div class="cinema-stage">
-    <header class="cinema-heading"><p><span></span> WHAT WE OFFER</p><h2 id="services-heading">Our travel <span>services.</span></h2><div class="cinema-aside">Get help with your visa, book a flight, or find a hotel.<br/>Choose the service you need. We’ll take it from there.</div></header>
-    <div class="cinema-panels">
-      <article class="cinema-panel is-active" id="service-visas">
-        <img class="cinema-image" src="assets/inline/visa.jpg" alt="Travel documents" loading="lazy" />
-        <div class="cinema-shade"></div>
-        <button class="cinema-selector" aria-expanded="true" aria-controls="service-detail-visas"><span class="cinema-number">01</span><span class="cinema-category">Visa assistance</span><span class="cinema-plus" aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button>
-        <div class="cinema-panel-title" aria-hidden="true">Visa assistance</div>
-        <div class="cinema-detail" id="service-detail-visas"><p class="cinema-detail-label">Visa assistance</p><h3>Visa assistance</h3><p>Understand the requirements and get help preparing your application. Visa decisions remain with the embassy or immigration authority.</p><button class="cinema-action" data-plan data-service="Visa Advisory & Protocol Assistance">Get Visa Support Now<span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button></div>
-        <div class="cinema-progress" aria-hidden="true"><span></span></div>
-      </article>
-      <article class="cinema-panel" id="service-flights">
-        <img class="cinema-image" src="assets/inline/departure.jpg" alt="An aircraft ready for departure" loading="lazy" />
-        <div class="cinema-shade"></div>
-        <button class="cinema-selector" aria-expanded="false" aria-controls="service-detail-flights"><span class="cinema-number">02</span><span class="cinema-category">Flight bookings</span><span class="cinema-plus" aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button>
-        <div class="cinema-panel-title" aria-hidden="true">Flight bookings</div>
-        <div class="cinema-detail" id="service-detail-flights" inert><p class="cinema-detail-label">Flight bookings</p><h3>Flight bookings</h3><p>Compare routes, fares and departure times. We’ll help you book the option that works for you.</p><button class="cinema-action" data-plan data-service="Flight Bookings (Economy, Business, First)">Plan my flight<span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button></div>
-        <div class="cinema-progress" aria-hidden="true"><span></span></div>
-      </article>
-      <article class="cinema-panel" id="service-stays">
-        <img class="cinema-image" src="assets/inline/stay.jpg" alt="Holiday accommodation" loading="lazy" />
-        <div class="cinema-shade"></div>
-        <button class="cinema-selector" aria-expanded="false" aria-controls="service-detail-stays"><span class="cinema-number">03</span><span class="cinema-category">Hotels & stays</span><span class="cinema-plus" aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button>
-        <div class="cinema-panel-title" aria-hidden="true">Hotel bookings</div>
-        <div class="cinema-detail" id="service-detail-stays" inert><p class="cinema-detail-label">Hotels & stays</p><h3>Hotels & accommodation</h3><p>A city hotel, a beach resort or room for the whole family. Find a stay that suits your budget and your trip.</p><button class="cinema-action" data-plan data-service="Hotels & Luxury Stays">Find my stay<span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button></div>
-        <div class="cinema-progress" aria-hidden="true"><span></span></div>
-      </article>
-      <article class="cinema-panel" id="service-holidays">
-        <img class="cinema-image" src="assets/destinations/zanzibar.jpg" alt="The coast of Zanzibar" loading="lazy" />
-        <div class="cinema-shade"></div>
-        <button class="cinema-selector" aria-expanded="false" aria-controls="service-detail-holidays"><span class="cinema-number">04</span><span class="cinema-category">Holidays</span><span class="cinema-plus" aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button>
-        <div class="cinema-panel-title" aria-hidden="true">Holiday planning</div>
-        <div class="cinema-detail" id="service-detail-holidays" inert><p class="cinema-detail-label">Holidays</p><h3>Holiday planning</h3><p>Tell us what you enjoy. We’ll help bring your flights, accommodation and activities together into one trip.</p><button class="cinema-action" data-plan data-service="Complete Holiday (Flights, Hotels & Visas)">Plan my holiday<span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button></div>
-        <div class="cinema-progress" aria-hidden="true"><span></span></div>
-      </article>
-    </div>
-    <footer class="cinema-footer"><span>CHOOSE THE TRAVEL SUPPORT YOU NEED.</span><button class="cinema-enquiry" data-plan>Tell us what you need <span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button></footer>
-  </div>
-</section>
-<section class="booking-editorial" id="how-it-works" aria-labelledby="booking-heading">
+<section class="svc" id="services" aria-labelledby="services-heading">
   <div class="site-shell">
-    <header class="booking-intro"><div class="booking-heading-group"><p class="section-kicker">YOUR JOURNEY STARTS HERE</p><h2 id="booking-heading">How to book.<br/><span>Made simple.</span></h2></div><p>A few details from you. <br/>A world of possibility from here.</p></header>
-    <div class="booking-lines">
-      <article class="booking-line"><div class="booking-phrase"><h3 aria-label="You dream it.">You <span class="booking-photo"><img src="assets/booking/coastline.jpg" alt="Sunlit tropical coastline" width="1672" height="941" loading="lazy" decoding="async" /></span><em>dream it.</em></h3></div><div class="booking-explanation"><h4>Tell us what you have in mind.</h4><p>A destination, your dates, a budget. Or just an idea you can’t stop thinking about. We’ll start there.</p></div></article>
-      <article class="booking-line"><div class="booking-phrase"><h3 aria-label="We shape it.">We <em>shape it.</em><span class="booking-photo"><img src="assets/booking/resort.jpg" alt="An ocean-facing resort terrace" width="1672" height="941" loading="lazy" decoding="async" /></span></h3></div><div class="booking-explanation"><h4>Find the fit that feels like you.</h4><p>Explore the routes, stays and costs with us. Ask questions. Make adjustments. Choose your kind of journey.</p></div></article>
-      <article class="booking-line"><div class="booking-phrase"><h3 aria-label="You live it.">You <span class="booking-photo"><img src="assets/booking/departure.jpg" alt="An aircraft wing above the clouds at dawn" width="1672" height="941" loading="lazy" decoding="async" /></span><em>live it.</em></h3></div><div class="booking-explanation"><h4>Confirm the details. Get ready.</h4><p>We guide you through payment and confirmation, so you know what’s booked and what comes next.</p></div></article>
+    <header class="head head--center reveal">
+      <p class="tag"><i aria-hidden="true">+</i>Our services</p>
+      <h2 id="services-heading">Everything you need, <span>handled by one team.</span></h2>
+    </header>
+    <div class="svc-grid">
+      <article class="svc-card reveal" data-parallax="-0.04">
+        <figure><img src="assets/timeline/01-visa-protocol.jpg" alt="A passport and travel documents on a desk" loading="lazy" decoding="async" /></figure>
+        <div class="svc-title"><h3>Visa assistance</h3><button class="circle" data-plan data-service="visa" aria-label="Start a visa request"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></button></div>
+        <p>We check your documents, help with the application and book your appointment.</p>
+        <ul class="chips"><li>UK visit</li><li>UK student</li><li>Umrah</li></ul>
+      </article>
+      <article class="svc-card reveal" data-parallax="0.05">
+        <figure><img src="assets/timeline/03-inflight-cabin.jpg" alt="A traveller resting in a flight cabin" loading="lazy" decoding="async" /></figure>
+        <div class="svc-title"><h3>Flights</h3><button class="circle" data-plan data-service="flight" aria-label="Find a flight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></button></div>
+        <p>We compare routes, fares and times from Lagos and Abuja, then book the one that suits you.</p>
+        <ul class="chips"><li>Economy to first</li><li>Groups</li></ul>
+      </article>
+      <article class="svc-card reveal" data-parallax="-0.02">
+        <figure><img src="assets/inline/stay.jpg" alt="A villa terrace with a pool above the sea" loading="lazy" decoding="async" /></figure>
+        <div class="svc-title"><h3>Hotels &amp; stays</h3><button class="circle" data-plan data-service="hotel" aria-label="Find a stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></button></div>
+        <p>City hotels, beach resorts and family apartments that fit your budget.</p>
+        <ul class="chips"><li>Hotels</li><li>Resorts</li><li>Apartments</li></ul>
+      </article>
+      <article class="svc-card reveal" data-parallax="0.07">
+        <figure><img src="assets/timeline/04-destination-stay.jpg" alt="A couple welcomed at a beachfront resort" loading="lazy" decoding="async" /></figure>
+        <div class="svc-title"><h3>Holidays &amp; Umrah</h3><button class="circle" data-plan data-service="holiday" aria-label="Plan a holiday"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></button></div>
+        <p>Flights, hotel, visa and transfers planned together as one trip.</p>
+        <ul class="chips"><li>Packages</li><li>Umrah</li><li>Honeymoons</li></ul>
+      </article>
     </div>
-    <div class="booking-outro"><p>From your first idea to your next departure.</p><button class="editorial-link" data-plan>Let’s start with your plans <svg class="diagonal-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></button></div>
   </div>
 </section>
-<!-- Testimonials (Trusted by Clients - 1:1 Match to Inspiration) -->
-<section class="trusted-clients" id="stories" aria-labelledby="clients-heading">
-  <header class="site-shell stories-heading"><p class="section-kicker">TRAVELLER STORIES</p><h2 id="clients-heading">Our travellers.<br/><span>Their stories.</span></h2></header>
-  <div class="trusted-container">
-    <!-- Left Column: Title & Intro -->
-    <div class="trusted-info">
-      <p class="traveller-count">2,400<span>+</span></p><p class="traveller-count-label">Satisfied travellers. And counting.</p>
-      <p>ViaSky has helped travellers from Lagos and Abuja navigate complex visas, premium flights, and handpicked luxury stays without the stress.</p>
-    </div>
 
-    <!-- Center Column: Featured Visual Hero Card -->
-    <div class="trusted-featured-card">
-      <img src="assets/traveler-hero.jpg" alt="Delighted traveller on vacation" class="featured-card-img" />
-      <div class="featured-card-overlay"></div>
-      <div class="featured-card-content">
-        <p class="featured-quote">“ViaSky has completely transformed how we plan and experience international travel!”</p>
-        <div class="featured-author">
-          <span class="featured-name">Dr. Babatunde Adeleke</span>
-          <span class="featured-role">Founder at Veloce Group</span>
+<section class="dest" id="destinations" aria-labelledby="destinations-heading">
+  <div class="site-shell">
+    <header class="head head--split reveal">
+      <div>
+        <p class="tag tag--dark"><i aria-hidden="true">+</i>Destinations</p>
+        <h2 id="destinations-heading">12 countries. <span>All from Nigeria.</span></h2>
+      </div>
+      <p>These are the places we currently book. Pick one to start your trip brief.</p>
+    </header>
+  </div>
+  <div class="dest-reel" aria-hidden="true"><div class="dest-reel-track" data-reel><span>London</span><span>Makkah</span><span>Istanbul</span><span>Kuala Lumpur</span><span>Singapore</span><span>Bangkok</span><span>Bali</span><span>Guangzhou</span><span>Dubai</span><span>Cape Town</span><span>Zanzibar</span><span>Marrakech</span></div></div>
+  <div class="site-shell">
+    <ul class="dest-grid">
+      <li><button class="dest-item" data-plan data-destination="LHR" data-service="visa"><span class="dest-num">01</span><span class="dest-name">United Kingdom</span><span class="dest-meta">London · Visit &amp; student visas</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="JED" data-service="umrah"><span class="dest-num">02</span><span class="dest-name">Saudi Arabia</span><span class="dest-meta">Makkah &amp; Madinah · Umrah</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="IST"><span class="dest-num">03</span><span class="dest-name">Turkey</span><span class="dest-meta">Istanbul</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="KUL"><span class="dest-num">04</span><span class="dest-name">Malaysia</span><span class="dest-meta">Kuala Lumpur</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="SIN"><span class="dest-num">05</span><span class="dest-name">Singapore</span><span class="dest-meta">Singapore</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="BKK"><span class="dest-num">06</span><span class="dest-name">Thailand</span><span class="dest-meta">Bangkok &amp; Phuket</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="DPS"><span class="dest-num">07</span><span class="dest-name">Indonesia</span><span class="dest-meta">Bali</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="CAN"><span class="dest-num">08</span><span class="dest-name">China</span><span class="dest-meta">Guangzhou &amp; Shanghai</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="DXB"><span class="dest-num">09</span><span class="dest-name">United Arab Emirates</span><span class="dest-meta">Dubai</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="CPT"><span class="dest-num">10</span><span class="dest-name">South Africa</span><span class="dest-meta">Cape Town &amp; Johannesburg</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="ZNZ"><span class="dest-num">11</span><span class="dest-name">Tanzania</span><span class="dest-meta">Zanzibar</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+      <li><button class="dest-item" data-plan data-destination="RAK"><span class="dest-num">12</span><span class="dest-name">Morocco</span><span class="dest-meta">Marrakech</span><span class="circle circle--dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span></button></li>
+    </ul>
+  </div>
+</section>
+
+<section class="howto" id="how-it-works" aria-labelledby="howto-heading">
+  <div class="site-shell"><h2 class="howto-title reveal" id="howto-heading">How to book your trip</h2></div>
+  <div class="howto-marquee" aria-hidden="true"><div class="howto-track"><span>Visa assistance</span><span>Flights</span><span>Hotels</span><span>Umrah</span><span>Holidays</span><span>Group trips</span><span>Visa assistance</span><span>Flights</span><span>Hotels</span><span>Umrah</span><span>Holidays</span><span>Group trips</span></div></div>
+  <div class="site-shell howto-grid">
+    <div class="howto-intro reveal">
+      <h3>4 easy steps</h3>
+      <p>Booking with ViaSky is simple. Send us your plan and we take it from there.</p>
+      <button class="btn" data-plan><span>Start planning</span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></i></button>
+    </div>
+    <ol class="howto-steps">
+      <li class="reveal"><b>01.</b><h4>Send your trip brief</h4><p>Choose a service and destination and add your dates. It takes about two minutes.</p></li>
+      <li class="reveal"><b>02.</b><h4>Get your options</h4><p>We reply on WhatsApp with flights, stays, a visa checklist and a clear quote.</p></li>
+      <li class="reveal"><b>03.</b><h4>Confirm and pay</h4><p>Choose what you like and pay in Naira. We send your bookings and documents.</p></li>
+      <li class="reveal"><b>04.</b><h4>Travel with support</h4><p>If a flight changes or plans shift, message us and we’ll help sort it out.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="reviews" id="stories" aria-labelledby="stories-heading">
+  <div class="site-shell">
+    <header class="head head--split reveal">
+      <div>
+        <p class="tag"><i aria-hidden="true">+</i>Reviews</p>
+        <h2 id="stories-heading">Hear from <span>our travellers.</span></h2>
+      </div>
+      <div class="reviews-arrows">
+        <button class="circle circle--outline quote-nav" data-dir="-1" aria-label="Previous review"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg></button>
+        <button class="circle quote-nav" data-dir="1" aria-label="Next review"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+      </div>
+    </header>
+    <div class="reviews-body reveal">
+      <figure class="reviews-photo"><img src="assets/traveler-hero.jpg" alt="A smiling traveller exploring an old town" loading="lazy" decoding="async" /><figcaption><b>2,400+</b> travellers helped</figcaption></figure>
+      <div class="quote-stage" id="quote-stage" aria-roledescription="carousel" aria-label="Traveller reviews">
+        <figure class="quote" aria-roledescription="slide" aria-label="1 of 4">
+          <blockquote>“ViaSky has completely transformed how we plan and experience international travel.”</blockquote>
+          <figcaption><b>Dr. Babatunde Adeleke</b> · Founder, Veloce Group</figcaption>
+        </figure>
+        <figure class="quote" aria-roledescription="slide" aria-label="2 of 4" hidden>
+          <blockquote>“From family flights to private villas, ViaSky is a must-have. I can’t imagine booking without them.”</blockquote>
+          <figcaption><b>Tolu Alabi</b> · Managing Partner, Ventures</figcaption>
+        </figure>
+        <figure class="quote" aria-roledescription="slide" aria-label="3 of 4" hidden>
+          <blockquote>“Stunning itineraries, careful visa guidance and top-notch support. ViaSky has it all.”</blockquote>
+          <figcaption><b>Amina Bello</b> · Executive Director, TechCo</figcaption>
+        </figure>
+        <figure class="quote" aria-roledescription="slide" aria-label="4 of 4" hidden>
+          <blockquote>“The most effortless travel service in Nigeria. I paid in Naira with zero FX stress.”</blockquote>
+          <figcaption><b>Chinedu Okonkwo</b> · Director, Prime Group</figcaption>
+        </figure>
+        <p class="quote-count" aria-hidden="true"><b id="quote-index">01</b> / 04</p>
+      </div>
+      <figure class="reviews-side"><img src="assets/destinations/zanzibar.jpg" alt="" loading="lazy" decoding="async" /></figure>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-heading">
+  <div class="site-shell faq-grid">
+    <header class="faq-side reveal">
+      <p class="tag"><i aria-hidden="true">+</i>FAQs</p>
+      <h2 id="faq-heading">Questions, <span>answered.</span></h2>
+      <p>Can’t find what you need? Message us on <a href="https://wa.me/2348138252839" target="_blank" rel="noopener">WhatsApp</a>.</p>
+    </header>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary><span>Which countries do you cover?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>The United Kingdom (visit and student visas), Saudi Arabia for Umrah, Turkey, Malaysia, Singapore, Thailand, Indonesia (Bali), China, the UAE (Dubai), South Africa, Tanzania (Zanzibar) and Morocco.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>Do you guarantee visa approval?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>No honest travel company can. Only the embassy decides. What we do is make sure your application is complete: we check your documents, finances and itinerary before you submit, so avoidable mistakes are caught early.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>Can you help with a UK student visa?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>Yes. Once you have your offer and CAS from your university, we help you prepare the application, review your financial documents and book your appointment. We can also arrange your flight and first accommodation.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>Do you arrange Umrah trips?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>Yes. We help with the Umrah visa, flights to Jeddah or Madinah, and hotels in Makkah and Madinah, for individuals, families and groups.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>Can I pay in Naira?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>Yes, by bank transfer or card. We also accept USD, GBP or EUR from domiciliary or overseas accounts.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>How early should I start planning?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>For the UK, 8 to 12 weeks before you travel, to leave time for the visa. For most other destinations, 3 to 6 weeks is usually enough. Book earlier for Ramadan, Easter and Christmas.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>What happens if my flight changes?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-answer"><p>Message us. If the airline delays, cancels or reschedules, we look at your rebooking options and update the rest of your trip to match.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="start-your-journey" aria-labelledby="cta-heading">
+  <div class="site-shell">
+    <div class="cta-box reveal">
+      <div class="cta-media" aria-hidden="true">
+        <img class="cta-img-a" data-parallax="-0.06" src="assets/v2-concepts/01-above-the-clouds.png" alt="" loading="lazy" decoding="async" />
+        <img class="cta-img-b" data-parallax="0.08" src="assets/inline/stay.jpg" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="cta-card">
+        <h2 id="cta-heading">Your next trip <span>starts with a message.</span></h2>
+        <p>Tell us where you want to go. We’ll handle the rest.</p>
+        <div class="cta-actions">
+          <button class="btn" data-plan><span>Plan my trip</span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></i></button>
+          <a class="text-link" href="https://wa.me/2348138252839" target="_blank" rel="noopener">Chat on WhatsApp</a>
         </div>
       </div>
     </div>
-
-    <!-- Right Column: Vertical Review Marquee Stream (Horizontal Swipe Carousel on Mobile) -->
-    <div class="trusted-reviews-stream" id="reviews-stream">
-      <div class="reviews-marquee-track" id="reviews-track">
-        <!-- Review 1 -->
-        <article class="review-bubble-card" data-review-index="0">
-          <p class="review-text">“From family flights to private villas 🌴, ViaSky is a must-have. I can’t ❤️ imagine booking without them!”</p>
-          <div class="review-rating" aria-label="5 out of 5 stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <div class="review-author-row">
-            <div class="review-author-left">
-              <img src="assets/avatar-male.jpg" alt="Tolu Alabi" class="review-avatar" />
-              <div class="review-author-meta">
-                <span class="review-author-name">Tolu Alabi</span>
-                <span class="review-author-title">Managing Partner at Ventures</span>
-              </div>
-            </div>
-            <div class="review-brand-badge badge-orange" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="12" r="9"/></svg>
-            </div>
-          </div>
-        </article>
-
-        <!-- Review 2 -->
-        <article class="review-bubble-card" data-review-index="1">
-          <p class="review-text">“Stunning itineraries 🌐, priority visa clearance, and top-notch 🤝 support. ViaSky has it all.”</p>
-          <div class="review-rating" aria-label="5 out of 5 stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <div class="review-author-row">
-            <div class="review-author-left">
-              <img src="assets/avatar-female.jpg" alt="Amina Bello" class="review-avatar" />
-              <div class="review-author-meta">
-                <span class="review-author-name">Amina Bello</span>
-                <span class="review-author-title">Executive Director at TechCo</span>
-              </div>
-            </div>
-            <div class="review-brand-badge badge-blue" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
-            </div>
-          </div>
-        </article>
-
-        <!-- Review 3 -->
-        <article class="review-bubble-card" data-review-index="2">
-          <p class="review-text">“Hands down the most effortless travel service in Nigeria ✈️. Settle in Naira, zero FX stress, and unmatched VIP care.”</p>
-          <div class="review-rating" aria-label="5 out of 5 stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <div class="review-author-row">
-            <div class="review-author-left">
-              <img src="assets/avatar-male.jpg" alt="Chinedu Okonkwo" class="review-avatar" />
-              <div class="review-author-meta">
-                <span class="review-author-name">Chinedu Okonkwo</span>
-                <span class="review-author-title">Director at Prime Group</span>
-              </div>
-            </div>
-            <div class="review-brand-badge badge-green" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="12" r="9"/></svg>
-            </div>
-          </div>
-        </article>
-
-        <!-- Duplicate track for seamless infinite marquee loop (desktop only) -->
-        <article class="review-bubble-card is-duplicate" aria-hidden="true">
-          <p class="review-text">“From family flights to private villas 🌴, ViaSky is a must-have. I can’t ❤️ imagine booking without them!”</p>
-          <div class="review-rating">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <div class="review-author-row">
-            <div class="review-author-left">
-              <img src="assets/avatar-male.jpg" alt="" class="review-avatar" />
-              <div class="review-author-meta">
-                <span class="review-author-name">Tolu Alabi</span>
-                <span class="review-author-title">Managing Partner at Ventures</span>
-              </div>
-            </div>
-            <div class="review-brand-badge badge-orange">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="12" r="9"/></svg>
-            </div>
-          </div>
-        </article>
-
-        <article class="review-bubble-card is-duplicate" aria-hidden="true">
-          <p class="review-text">“Stunning itineraries 🌐, priority visa clearance, and top-notch 🤝 support. ViaSky has it all.”</p>
-          <div class="review-rating">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <div class="review-author-row">
-            <div class="review-author-left">
-              <img src="assets/avatar-female.jpg" alt="" class="review-avatar" />
-              <div class="review-author-meta">
-                <span class="review-author-name">Amina Bello</span>
-                <span class="review-author-title">Executive Director at TechCo</span>
-              </div>
-            </div>
-            <div class="review-brand-badge badge-blue">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
-            </div>
-          </div>
-        </article>
-
-        <article class="review-bubble-card is-duplicate" aria-hidden="true">
-          <p class="review-text">“Hands down the most effortless travel service in Nigeria ✈️. Settle in Naira, zero FX stress, and unmatched VIP care.”</p>
-          <div class="review-rating">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <div class="review-author-row">
-            <div class="review-author-left">
-              <img src="assets/avatar-male.jpg" alt="" class="review-avatar" />
-              <div class="review-author-meta">
-                <span class="review-author-name">Chinedu Okonkwo</span>
-                <span class="review-author-title">Director at Prime Group</span>
-              </div>
-            </div>
-            <div class="review-brand-badge badge-green">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="12" cy="12" r="9"/></svg>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
   </div>
-</section>
-
-<!-- Frequently asked questions -->
-<section class="travel-intelligence faq-editorial" id="faq" aria-labelledby="faq-heading">
-  <div class="site-shell">
-    <header class="faq-editorial-heading">
-      <div><p class="section-kicker">BEFORE YOU TAKE FLIGHT</p><h2 id="faq-heading">Frequently asked<br/><span> questions.</span></h2></div>
-      <p>Everything you may want to know before<br/>we start planning your journey.</p>
-    </header>
-    <div class="faq-editorial-layout">
-      <div class="faq-accordion" aria-label="Frequently asked questions">
-        <details class="faq-row" open>
-          <summary><span class="faq-row-question">Do you guarantee visa approval?</span><span class="faq-row-toggle" aria-hidden="true"></span></summary>
-          <div class="faq-row-answer"><p><strong>No honest travel company can guarantee a visa.</strong> The legal authority to grant or deny an entry visa rests solely with consular officers and embassies.</p><p>What ViaSky guarantees is a thorough readiness review. We check your documents, financial disclosures, employment evidence and itinerary before submission so avoidable gaps are caught early.</p></div>
-        </details>
-        <details class="faq-row">
-          <summary><span class="faq-row-question">Can I pay in Nigerian Naira?</span><span class="faq-row-toggle" aria-hidden="true"></span></summary>
-          <div class="faq-row-answer"><p>Yes. You can pay for your itinerary in <strong>Nigerian Naira (NGN)</strong> by bank transfer or verified card. We also accept USD, GBP or EUR for clients using domiciliary or overseas accounts.</p></div>
-        </details>
-        <details class="faq-row">
-          <summary><span class="faq-row-question">What happens if my flight changes?</span><span class="faq-row-toggle" aria-hidden="true"></span></summary>
-          <div class="faq-row-answer"><p>We monitor your itinerary and help you deal with airline delays, cancellations and schedule changes. When disruption happens, we step in to review rebooking options and coordinate the parts of your trip affected by the change.</p></div>
-        </details>
-        <details class="faq-row">
-          <summary><span class="faq-row-question">How early should I start planning?</span><span class="faq-row-toggle" aria-hidden="true"></span></summary>
-          <div class="faq-row-answer"><p>For the UK, Schengen states, the US and Canada, begin around <strong>8 to 12 weeks ahead</strong>. For faster-turnaround destinations such as East Africa and the UAE, <strong>2 to 4 weeks</strong> is often enough.</p></div>
-        </details>
-        <details class="faq-row">
-          <summary><span class="faq-row-question">Can you plan group and family trips?</span><span class="faq-row-toggle" aria-hidden="true"></span></summary>
-          <div class="faq-row-answer"><p>Yes. We coordinate group flights, stays, billing and ground arrangements, including trips with guests departing from different cities. Tell us who is travelling and what brings everyone together.</p></div>
-        </details>
-      </div>
-      <div class="faq-contact"><p>Still have a question?</p><button data-plan>Ask ViaSky <span aria-hidden="true">↗</span></button></div>
-    </div>
-  </div>
-</section>
-
-<section class="world-invitation" id="start-your-journey" aria-labelledby="invitation-heading">
-  <div class="site-shell invitation-copy"><p class="invitation-eyebrow">THERE’S A WHOLE WORLD OUT THERE</p><h2 id="invitation-heading">Let’s make a little<br/><em>room for adventure.</em></h2><p>Tell us where your mind has been wandering.<br/>We’ll help you find your way there.</p><button class="invitation-button" data-plan>Plan my journey <span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button></div>
-
 </section>
 <footer class="site-footer">
   <div class="site-shell footer-main">
     <div class="footer-brand"><a href="#home" aria-label="ViaSky home"><img src="assets/viasky-logo-white-transparent.png" alt="ViaSky — Explore. Dream. Go." width="190" /></a><p>From Nigeria to everywhere.<br/>Your next journey, made personal.</p></div>
-    <nav class="footer-nav" aria-label="Explore ViaSky"><h2>Explore</h2><a href="#about">Why ViaSky</a><a href="#how-it-works">How to book</a><a href="#stories">Traveller stories</a><a href="#faq">Your questions</a></nav>
-    <nav class="footer-nav" aria-label="Travel services"><h2>Your journey</h2><a href="#services">Our travel services</a><button data-plan data-service="Flight Bookings (Economy, Business, First)">Flight bookings</button><button data-plan data-service="Hotels & Luxury Stays">Hotels & stays</button><button data-plan data-service="Visa Advisory & Protocol Assistance">Visa assistance</button></nav>
+    <nav class="footer-nav" aria-label="Explore ViaSky"><h2>Explore</h2><a href="#about">Why ViaSky</a><a href="#destinations">Destinations</a><a href="#how-it-works">How to book</a><a href="#stories">Traveller stories</a><a href="#faq">Your questions</a></nav>
+    <nav class="footer-nav" aria-label="Travel services"><h2>Your journey</h2><a href="#services">Our travel services</a><button data-plan data-service="flight">Flight bookings</button><button data-plan data-service="hotel">Hotels & stays</button><button data-plan data-service="visa">Visa assistance</button><button data-plan data-service="umrah">Umrah trips</button></nav>
     <div class="footer-start"><h2>A destination in mind?</h2><p>Start with an idea.<br/>Let’s work out the rest.</p><button class="footer-enquiry" data-plan>Start my trip brief <svg class="diagonal-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></button></div>
   </div>
   <div class="site-shell footer-bottom"><p>© <span id="footer-year">2026</span> ViaSky. All rights reserved.</p><span>Explore. Dream. Go.</span><a href="#home">Back to the top ↑</a></div>
@@ -504,477 +411,169 @@
 <dialog class="mobile-menu" id="mobile-menu" aria-label="Main menu">
   <div class="mobile-menu-scenery" aria-hidden="true"></div>
   <div class="mobile-menu-top"><a href="#home" aria-label="ViaSky home"><img src="assets/viasky-logo-white-transparent.png" alt="ViaSky" /></a><button class="mobile-menu-close" aria-label="Close navigation">Close <span aria-hidden="true">×</span></button></div>
-  <div class="mobile-menu-body"><p>WHERE WOULD YOU LIKE TO GO?</p><nav aria-label="Mobile navigation"><a href="#home"><small>01</small><span>Home</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#about"><small>02</small><span>Why ViaSky</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#services"><small>03</small><span>Our services</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#how-it-works"><small>04</small><span>How it works</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#stories"><small>05</small><span>Stories</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#faq"><small>06</small><span>FAQs</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a></nav></div>
+  <div class="mobile-menu-body"><p>WHERE WOULD YOU LIKE TO GO?</p><nav aria-label="Mobile navigation"><a href="#home"><small>01</small><span>Home</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#about"><small>02</small><span>Why ViaSky</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#services"><small>03</small><span>Our services</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#destinations"><small>04</small><span>Destinations</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#how-it-works"><small>05</small><span>How it works</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#stories"><small>06</small><span>Stories</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a><a href="#faq"><small>07</small><span>FAQs</span><i aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></i></a></nav></div>
   <div class="mobile-menu-bottom"><p>A flight. A holiday. A fresh start.<br/>Let’s help you get there.</p><button data-plan>Let’s talk travel <span aria-hidden="true"><svg class="diagonal-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" /></svg></span></button><span>FROM NIGERIA. TO EVERYWHERE.</span></div>
 </dialog>
-<dialog class="trip-dialog" id="concierge-dialog" aria-labelledby="trip-title">
-  <div class="trip-dialog-card">
-    <button class="dialog-close" type="button" aria-label="Close concierge form">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-
-    <header class="trip-dialog-header">
-      <span class="concierge-eyebrow" id="trip-eyebrow">VIA SKY PRIVATE TRAVEL DESK</span>
-      <h2 id="trip-title">Plan your bespoke <em>journey.</em></h2>
-      <p id="trip-desc">Tell us about your upcoming travel. A dedicated travel specialist will review your preferences and share tailored flight itineraries, curated stays, and visa advisory directly on WhatsApp.</p>
-    </header>
-
-    <form class="brief-form" id="trip-form">
-      <!-- 1. Service Required Custom Dropdown -->
-      <div class="form-group service-select-group">
-        <label class="field-label" id="lbl-service">Service Required</label>
-        <div class="custom-select" id="select-service">
-          <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-service">
-            <span class="select-value">Complete Holiday (Flights, Hotels &amp; Visas)</span>
-            <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
-          <div class="select-dropdown" role="listbox" tabindex="-1">
-            <div class="select-option is-active" role="option" aria-selected="true" data-value="Complete Holiday (Flights, Hotels &amp; Visas)">Complete Holiday (Flights, Hotels &amp; Visas)</div>
-            <div class="select-option" role="option" aria-selected="false" data-value="Flight Bookings (Economy, Business, First)">Flight Bookings (Economy, Business, First)</div>
-            <div class="select-option" role="option" aria-selected="false" data-value="Hotels &amp; Luxury Stays">Hotels &amp; Luxury Stays</div>
-            <div class="select-option" role="option" aria-selected="false" data-value="Visa Advisory &amp; Protocol Assistance">Visa Advisory &amp; Protocol Assistance</div>
-            <div class="select-option" role="option" aria-selected="false" data-value="Custom Bespoke Travel Itinerary">Custom Bespoke Travel Itinerary</div>
-          </div>
-          <input type="hidden" name="service" id="trip-service" value="Complete Holiday (Flights, Hotels &amp; Visas)" />
-        </div>
+<dialog class="booking" id="concierge-dialog" aria-labelledby="bk-title">
+  <div class="bk-shell">
+    <aside class="bk-aside" aria-label="Your trip so far">
+      <img class="bk-aside-img" id="bk-aside-img" src="assets/v2-concepts/01-above-the-clouds.png" alt="" />
+      <div class="bk-aside-shade" aria-hidden="true"></div>
+      <img class="bk-aside-logo" src="assets/viasky-logo-white-transparent.png" alt="ViaSky" />
+      <div class="bk-summary">
+        <p>Your trip</p>
+        <dl>
+          <div><dt>Service</dt><dd id="sum-service">—</dd></div>
+          <div><dt>Destination</dt><dd id="sum-to">—</dd></div>
+          <div><dt>Dates</dt><dd id="sum-date">Flexible</dd></div>
+          <div><dt>Travellers</dt><dd id="sum-pax">1 adult</dd></div>
+        </dl>
       </div>
+    </aside>
 
-      <!-- ==========================================
-           FIELDSET: VISA ADVISORY & PROTOCOL
-           ========================================== -->
-      <div class="service-fieldset" id="fieldset-visa" data-fieldset="visa">
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="visa-destination">Destination Country <span class="req">*</span></label>
-            <input id="visa-destination" name="visa_destination" type="text" placeholder="e.g. UK, USA, Canada, Schengen, UAE" maxlength="160" autocomplete="off" />
+    <div class="bk-main">
+      <header class="bk-head">
+        <ol class="bk-progress" aria-label="Booking steps">
+          <li class="is-current"><em>Service</em></li>
+          <li><em>Destination</em></li>
+          <li><em>Details</em></li>
+          <li><em>Contact</em></li>
+        </ol>
+        <button class="bk-close" type="button" aria-label="Close booking form"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg></button>
+      </header>
+
+      <form class="bk-form" id="trip-form" novalidate>
+        <!-- Step 1: service -->
+        <section class="bk-step is-active" data-step="1" aria-labelledby="bk-title">
+          <p class="bk-kicker">Step 1 of 4</p>
+          <h2 id="bk-title">What can we help you with?</h2>
+          <p class="bk-sub">Pick the main thing. You can add anything else in your notes.</p>
+          <div class="bk-services" role="radiogroup" aria-labelledby="bk-title">
+            <label class="bk-service"><input type="radio" name="service" value="visa" /><span class="bk-service-icon"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" /><circle cx="12" cy="10" r="3" /><path d="M9 16h6" /></svg></span><span class="bk-service-text"><b>Visa assistance</b><small>UK visit &amp; student, Umrah and more</small></span></label>
+            <label class="bk-service"><input type="radio" name="service" value="flight" /><span class="bk-service-icon"><svg viewBox="0 0 24 24"><use href="#plane" /></svg></span><span class="bk-service-text"><b>Flights</b><small>One-way, return or multi-city</small></span></label>
+            <label class="bk-service"><input type="radio" name="service" value="hotel" /><span class="bk-service-icon"><svg viewBox="0 0 24 24"><path d="M3 20V8l9-5 9 5v12M3 20h18M9 20v-6h6v6" /></svg></span><span class="bk-service-text"><b>Hotels &amp; stays</b><small>Hotels, resorts and apartments</small></span></label>
+            <label class="bk-service"><input type="radio" name="service" value="holiday" /><span class="bk-service-icon"><svg viewBox="0 0 24 24"><use href="#sun" /></svg></span><span class="bk-service-text"><b>Holiday package</b><small>Flights, hotel, visa and transfers together</small></span></label>
+            <label class="bk-service"><input type="radio" name="service" value="umrah" /><span class="bk-service-icon"><svg viewBox="0 0 24 24"><path d="M5 21V10l7-6 7 6v11M5 21h14M10 21v-5a2 2 0 0 1 4 0v5M12 4V2" /></svg></span><span class="bk-service-text"><b>Umrah</b><small>Visa, flights and hotels in Makkah &amp; Madinah</small></span></label>
           </div>
+        </section>
 
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-visa-type">Visa Category / Purpose</label>
-            <div class="custom-select" id="select-visa-type">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-visa-type">
-                <span class="select-value">Tourist / Visitor Visa</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="Tourist / Visitor Visa">Tourist / Visitor Visa</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Business / Conference Visa">Business / Conference Visa</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Study / Student Visa">Study / Student Visa</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Work / Relocation Permit">Work / Relocation Permit</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Transit Visa">Transit Visa</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family / Dependent Visa">Family / Dependent Visa</div>
-              </div>
-              <input type="hidden" name="visa_type" id="input-visa-type" value="Tourist / Visitor Visa" />
-            </div>
+        <!-- Step 2: destination -->
+        <section class="bk-step" data-step="2" aria-labelledby="bk-dest-title" hidden>
+          <p class="bk-kicker">Step 2 of 4</p>
+          <h2 id="bk-dest-title">Where are you headed?</h2>
+          <p class="bk-sub">These are the places we currently cover.</p>
+          <div class="bk-destinations" id="bk-destinations" role="radiogroup" aria-labelledby="bk-dest-title"></div>
+          <div class="bk-field bk-visa-type" data-when-service="visa" hidden>
+            <span class="bk-label" id="bk-visa-type-label">Type of visa</span>
+            <div class="bk-chips" role="radiogroup" aria-labelledby="bk-visa-type-label" id="bk-visa-type"></div>
           </div>
-        </div>
+        </section>
 
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="field-label" for="visa-date">Intended Travel Date</label>
-            <input id="visa-date" name="visa_date" type="date" />
-          </div>
+        <!-- Step 3: details -->
+        <section class="bk-step" data-step="3" aria-labelledby="bk-details-title" hidden>
+          <p class="bk-kicker">Step 3 of 4</p>
+          <h2 id="bk-details-title">Tell us about the trip.</h2>
+          <p class="bk-sub" id="bk-details-sub">Rough dates are fine. We’ll confirm everything with you.</p>
 
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-visa-applicants">Applicants</label>
-            <div class="custom-select" id="select-visa-applicants">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-visa-applicants">
-                <span class="select-value">1 Applicant (Solo)</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="1 Applicant (Solo)">1 Applicant (Solo)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="2 Applicants (Couple)">2 Applicants (Couple)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family (3–5 Applicants)">Family (3–5 Applicants)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Corporate / Group (5+)">Corporate / Group (5+)</div>
-              </div>
-              <input type="hidden" name="visa_applicants" id="input-visa-applicants" value="1 Applicant (Solo)" />
-            </div>
-          </div>
-
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-visa-status">Visa History</label>
-            <div class="custom-select" id="select-visa-status">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-visa-status">
-                <span class="select-value">First-Time Applicant</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="First-Time Applicant">First-Time Applicant</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Previous Visa Holder (Renewal)">Previous Visa Holder (Renewal)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Previous Refusal (Need Audit)">Previous Refusal (Need Audit)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="In-Progress Application">In-Progress Application</div>
-              </div>
-              <input type="hidden" name="visa_history" id="input-visa-history" value="First-Time Applicant" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="visa-passport">Passport / Nationality</label>
-            <input id="visa-passport" name="visa_passport" type="text" value="Nigerian Passport" placeholder="e.g. Nigerian Passport" maxlength="120" />
-          </div>
-
-          <div class="form-group">
-            <label class="field-label" for="visa-notes">Specific Requests / Case Notes <span class="opt">· Optional</span></label>
-            <input id="visa-notes" name="visa_notes" type="text" placeholder="e.g. Document review, biometric appointment, urgent protocol" maxlength="220" />
-          </div>
-        </div>
-      </div>
-
-      <!-- ==========================================
-           FIELDSET: FLIGHT BOOKINGS
-           ========================================== -->
-      <div class="service-fieldset" id="fieldset-flight" data-fieldset="flight">
-        <div class="trip-type-row">
-          <label class="trip-type-pill active">
-            <input type="radio" name="flight_trip_type" value="Round Trip" checked />
-            <span>Round Trip</span>
-          </label>
-          <label class="trip-type-pill">
-            <input type="radio" name="flight_trip_type" value="One Way" />
-            <span>One Way</span>
-          </label>
-          <label class="trip-type-pill">
-            <input type="radio" name="flight_trip_type" value="Multi-City" />
-            <span>Multi-City</span>
-          </label>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="flight-origin">Departing From <span class="req">*</span></label>
-            <input id="flight-origin" name="flight_origin" type="text" placeholder="e.g. Lagos (LOS), Abuja (ABV)" maxlength="160" autocomplete="off" />
-          </div>
-
-          <div class="form-group">
-            <label class="field-label" for="flight-destination">Flying To (Destination) <span class="req">*</span></label>
-            <input id="flight-destination" name="flight_destination" type="text" placeholder="e.g. London Heathrow (LHR), Dubai (DXB)" maxlength="160" autocomplete="off" />
-          </div>
-        </div>
-
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="field-label" for="flight-departure">Departure Date <span class="req">*</span></label>
-            <input id="flight-departure" name="flight_departure" type="date" />
-          </div>
-
-          <div class="form-group flight-return-group" id="flight-return-wrap">
-            <label class="field-label" for="flight-return">Return Date</label>
-            <input id="flight-return" name="flight_return" type="date" />
-          </div>
-
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-flight-cabin">Cabin Class</label>
-            <div class="custom-select" id="select-flight-cabin">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-flight-cabin">
-                <span class="select-value">Economy Class</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="Economy Class">Economy Class</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Premium Economy">Premium Economy</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Business Class">Business Class</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="First Class">First Class</div>
-              </div>
-              <input type="hidden" name="flight_cabin" id="input-flight-cabin" value="Economy Class" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-flight-passengers">Passengers</label>
-            <div class="custom-select" id="select-flight-passengers">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-flight-passengers">
-                <span class="select-value">1 Adult</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="1 Adult">1 Adult</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="2 Adults">2 Adults</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family (2 Adults + 1 Child)">Family (2 Adults + 1 Child)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family (2 Adults + 2+ Children)">Family (2 Adults + 2+ Children)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Group (5+ Passengers)">Group (5+ Passengers)</div>
-              </div>
-              <input type="hidden" name="flight_passengers" id="input-flight-passengers" value="1 Adult" />
+          <div class="bk-field" data-when-service="flight holiday umrah custom">
+            <span class="bk-label" id="bk-origin-label">Flying from</span>
+            <div class="bk-chips" role="radiogroup" aria-labelledby="bk-origin-label">
+              <label class="bk-chip"><input type="radio" name="origin" value="LOS" checked /><span>Lagos</span></label>
+              <label class="bk-chip"><input type="radio" name="origin" value="ABV" /><span>Abuja</span></label>
+              <label class="bk-chip"><input type="radio" name="origin" value="PHC" /><span>Port Harcourt</span></label>
+              <label class="bk-chip"><input type="radio" name="origin" value="KAN" /><span>Kano</span></label>
+              <label class="bk-chip"><input type="radio" name="origin" value="ENU" /><span>Enugu</span></label>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="field-label" for="flight-airline">Preferred Airline / Notes <span class="opt">· Optional</span></label>
-            <input id="flight-airline" name="flight_airline" type="text" placeholder="e.g. Qatar Airways, Emirates, direct flights" maxlength="220" />
-          </div>
-        </div>
-      </div>
-
-      <!-- ==========================================
-           FIELDSET: HOTELS & LUXURY STAYS
-           ========================================== -->
-      <div class="service-fieldset" id="fieldset-hotel" data-fieldset="hotel">
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="hotel-destination">Destination City or Area <span class="req">*</span></label>
-            <input id="hotel-destination" name="hotel_destination" type="text" placeholder="e.g. Dubai Marina, London Central, Zanzibar" maxlength="160" autocomplete="off" />
-          </div>
-
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-hotel-type">Property Type</label>
-            <div class="custom-select" id="select-hotel-type">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-hotel-type">
-                <span class="select-value">5-Star Luxury Hotel</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="5-Star Luxury Hotel">5-Star Luxury Hotel</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Boutique Luxury Hotel">Boutique Luxury Hotel</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Private Beachfront Villa">Private Beachfront Villa</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Serviced Executive Apartment">Serviced Executive Apartment</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Resort &amp; Spa Sanctuary">Resort &amp; Spa Sanctuary</div>
-              </div>
-              <input type="hidden" name="hotel_type" id="input-hotel-type" value="5-Star Luxury Hotel" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="hotel-checkin">Check-in Date <span class="req">*</span></label>
-            <input id="hotel-checkin" name="hotel_checkin" type="date" />
-          </div>
-
-          <div class="form-group">
-            <label class="field-label" for="hotel-checkout">Check-out Date <span class="req">*</span></label>
-            <input id="hotel-checkout" name="hotel_checkout" type="date" />
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-hotel-rooms">Rooms &amp; Guests</label>
-            <div class="custom-select" id="select-hotel-rooms">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-hotel-rooms">
-                <span class="select-value">2 Guests (1 Room)</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option" role="option" aria-selected="false" data-value="1 Guest (1 Room)">1 Guest (1 Room)</div>
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="2 Guests (1 Room)">2 Guests (1 Room)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="2 Guests (2 Rooms)">2 Guests (2 Rooms)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family Suite (3–4 Guests)">Family Suite (3–4 Guests)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Group (3+ Rooms)">Group (3+ Rooms)</div>
-              </div>
-              <input type="hidden" name="hotel_rooms" id="input-hotel-rooms" value="2 Guests (1 Room)" />
+          <div class="bk-field" data-when-service="flight">
+            <span class="bk-label" id="bk-trip-label">Trip type</span>
+            <div class="bk-segment" role="radiogroup" aria-labelledby="bk-trip-label">
+              <label><input type="radio" name="trip_type" value="Return" checked /><span>Return</span></label>
+              <label><input type="radio" name="trip_type" value="One way" /><span>One way</span></label>
             </div>
           </div>
 
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-hotel-board">Board &amp; Meal Preference</label>
-            <div class="custom-select" id="select-hotel-board">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-hotel-board">
-                <span class="select-value">Bed &amp; Breakfast (B&amp;B)</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="Bed &amp; Breakfast (B&amp;B)">Bed &amp; Breakfast (B&amp;B)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Room Only">Room Only</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Half Board (Breakfast + Dinner)">Half Board (Breakfast + Dinner)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="All-Inclusive">All-Inclusive</div>
-              </div>
-              <input type="hidden" name="hotel_board" id="input-hotel-board" value="Bed &amp; Breakfast (B&amp;B)" />
+          <div class="bk-row">
+            <label class="bk-field bk-input"><span class="bk-label" id="bk-date-start-label">Departure date</span><input type="date" name="date_start" id="bk-date-start" /></label>
+            <label class="bk-field bk-input" id="bk-date-end-wrap"><span class="bk-label" id="bk-date-end-label">Return date</span><input type="date" name="date_end" id="bk-date-end" /></label>
+          </div>
+          <label class="bk-flex"><input type="checkbox" name="flexible" id="bk-flexible" /><span>My dates are flexible</span></label>
+
+          <div class="bk-row">
+            <div class="bk-field">
+              <span class="bk-label" id="bk-adults-label">Adults</span>
+              <div class="bk-stepper" data-min="1" data-max="20"><button type="button" data-delta="-1" aria-label="Fewer adults">−</button><input type="number" name="adults" value="1" min="1" max="20" aria-labelledby="bk-adults-label" readonly /><button type="button" data-delta="1" aria-label="More adults">+</button></div>
             </div>
-          </div>
-        </div>
-
-        <div class="form-group full">
-          <label class="field-label" for="hotel-notes">Special Requests &amp; Room Preferences <span class="opt">· Optional</span></label>
-          <input id="hotel-notes" name="hotel_notes" type="text" placeholder="e.g. Ocean view, honeymoon amenities, airport transfer" maxlength="220" />
-        </div>
-      </div>
-
-      <!-- ==========================================
-           FIELDSET: COMPLETE HOLIDAY
-           ========================================== -->
-      <div class="service-fieldset" id="fieldset-holiday" data-fieldset="holiday">
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="holiday-origin">Departing From</label>
-            <input id="holiday-origin" name="holiday_origin" type="text" placeholder="e.g. Lagos, Abuja" maxlength="160" autocomplete="off" />
-          </div>
-
-          <div class="form-group">
-            <label class="field-label" for="holiday-destination">Holiday Destination(s) <span class="req">*</span></label>
-            <input id="holiday-destination" name="holiday_destination" type="text" placeholder="e.g. Zanzibar, Maldives, Dubai, Europe Tour" maxlength="160" autocomplete="off" />
-          </div>
-        </div>
-
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="field-label" for="holiday-departure">Travel Date / Month</label>
-            <input id="holiday-departure" name="holiday_departure" type="date" />
-          </div>
-
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-holiday-duration">Duration</label>
-            <div class="custom-select" id="select-holiday-duration">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-holiday-duration">
-                <span class="select-value">7 Days (1 Week)</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option" role="option" aria-selected="false" data-value="4–5 Days (Short Break)">4–5 Days (Short Break)</div>
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="7 Days (1 Week)">7 Days (1 Week)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="10–14 Days (2 Weeks)">10–14 Days (2 Weeks)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="3+ Weeks (Extended)">3+ Weeks (Extended)</div>
-              </div>
-              <input type="hidden" name="holiday_duration" id="input-holiday-duration" value="7 Days (1 Week)" />
+            <div class="bk-field">
+              <span class="bk-label" id="bk-children-label">Children <small>under 12</small></span>
+              <div class="bk-stepper" data-min="0" data-max="10"><button type="button" data-delta="-1" aria-label="Fewer children">−</button><input type="number" name="children" value="0" min="0" max="10" aria-labelledby="bk-children-label" readonly /><button type="button" data-delta="1" aria-label="More children">+</button></div>
             </div>
           </div>
 
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-holiday-travellers">Travellers</label>
-            <div class="custom-select" id="select-holiday-travellers">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-holiday-travellers">
-                <span class="select-value">2 Travellers (Couple)</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option" role="option" aria-selected="false" data-value="Solo Traveller">Solo Traveller</div>
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="2 Travellers (Couple)">2 Travellers (Couple)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family (with Kids)">Family (with Kids)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Friends / Group (4+)">Friends / Group (4+)</div>
-              </div>
-              <input type="hidden" name="holiday_travellers" id="input-holiday-travellers" value="2 Travellers (Couple)" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-holiday-scope">Package Inclusions Needed</label>
-            <div class="custom-select" id="select-holiday-scope">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-holiday-scope">
-                <span class="select-value">All-Inclusive (Flights, Hotel, Visa &amp; Tours)</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="All-Inclusive (Flights, Hotel, Visa &amp; Tours)">All-Inclusive (Flights, Hotel, Visa &amp; Tours)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Flights + Hotels Only">Flights + Hotels Only</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Hotels + Tours &amp; Activities">Hotels + Tours &amp; Activities</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Visa + Itinerary Consultation">Visa + Itinerary Consultation</div>
-              </div>
-              <input type="hidden" name="holiday_scope" id="input-holiday-scope" value="All-Inclusive (Flights, Hotel, Visa &amp; Tours)" />
+          <div class="bk-field" data-when-service="flight">
+            <span class="bk-label" id="bk-cabin-label">Cabin</span>
+            <div class="bk-chips" role="radiogroup" aria-labelledby="bk-cabin-label">
+              <label class="bk-chip"><input type="radio" name="cabin" value="Economy" checked /><span>Economy</span></label>
+              <label class="bk-chip"><input type="radio" name="cabin" value="Premium economy" /><span>Premium economy</span></label>
+              <label class="bk-chip"><input type="radio" name="cabin" value="Business" /><span>Business</span></label>
+              <label class="bk-chip"><input type="radio" name="cabin" value="First" /><span>First</span></label>
             </div>
           </div>
 
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-holiday-style">Holiday Style</label>
-            <div class="custom-select" id="select-holiday-style">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-holiday-style">
-                <span class="select-value">Luxury Relaxation &amp; Beach</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="Luxury Relaxation &amp; Beach">Luxury Relaxation &amp; Beach</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Adventure &amp; Safari">Adventure &amp; Safari</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="City Explorer &amp; Shopping">City Explorer &amp; Shopping</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Honeymoon &amp; Romantic Escape">Honeymoon &amp; Romantic Escape</div>
-              </div>
-              <input type="hidden" name="holiday_style" id="input-holiday-style" value="Luxury Relaxation &amp; Beach" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group full">
-          <label class="field-label" for="holiday-notes">Special Preferences / Celebration <span class="opt">· Optional</span></label>
-          <input id="holiday-notes" name="holiday_notes" type="text" placeholder="e.g. Birthday celebration, beachfront villa, private excursions" maxlength="220" />
-        </div>
-      </div>
-
-      <!-- ==========================================
-           FIELDSET: CUSTOM BESPOKE / GENERAL
-           ========================================== -->
-      <div class="service-fieldset" id="fieldset-custom" data-fieldset="custom">
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="field-label" for="custom-origin">Departing From</label>
-            <input id="custom-origin" name="custom_origin" type="text" placeholder="City or airport (e.g. Lagos, Abuja)" maxlength="160" autocomplete="off" />
-          </div>
-
-          <div class="form-group">
-            <label class="field-label" for="custom-destination">Destination <span class="req">*</span></label>
-            <input id="custom-destination" name="custom_destination" type="text" placeholder="City or country (e.g. London, Dubai, Maldives)" maxlength="160" autocomplete="off" />
-          </div>
-        </div>
-
-        <div class="form-row-3">
-          <div class="form-group">
-            <label class="field-label" for="custom-departure">Departure Date</label>
-            <input id="custom-departure" name="custom_departure" type="date" />
-          </div>
-
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-custom-travellers">Travellers</label>
-            <div class="custom-select" id="select-custom-travellers">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-custom-travellers">
-                <span class="select-value">2 Travellers</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option" role="option" aria-selected="false" data-value="1 Traveller">1 Traveller (Solo)</div>
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="2 Travellers">2 Travellers (Couple / Duo)</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="3 Travellers">3 Travellers</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="4 Travellers">4 Travellers</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="5+ Travellers (Group)">5+ Travellers (Group)</div>
-              </div>
-              <input type="hidden" name="custom_travellers" id="input-custom-travellers" value="2 Travellers" />
+          <div class="bk-field" data-when-service="hotel holiday umrah">
+            <span class="bk-label" id="bk-stay-label">Accommodation</span>
+            <div class="bk-chips" role="radiogroup" aria-labelledby="bk-stay-label">
+              <label class="bk-chip"><input type="radio" name="stay" value="Budget-friendly" /><span>Budget-friendly</span></label>
+              <label class="bk-chip"><input type="radio" name="stay" value="Comfortable (4-star)" checked /><span>Comfortable · 4★</span></label>
+              <label class="bk-chip"><input type="radio" name="stay" value="Luxury (5-star)" /><span>Luxury · 5★</span></label>
             </div>
           </div>
 
-          <div class="form-group custom-select-field">
-            <label class="field-label" id="lbl-custom-style">Travel Style</label>
-            <div class="custom-select" id="select-custom-style">
-              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-custom-style">
-                <span class="select-value">Leisure &amp; Holiday</span>
-                <svg class="select-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div class="select-dropdown" role="listbox" tabindex="-1">
-                <div class="select-option is-active" role="option" aria-selected="true" data-value="Leisure &amp; Holiday">Leisure &amp; Holiday</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Executive &amp; Corporate">Executive &amp; Corporate</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Luxury VIP &amp; Honeymoon">Luxury VIP &amp; Honeymoon</div>
-                <div class="select-option" role="option" aria-selected="false" data-value="Family &amp; Group Escape">Family &amp; Group Escape</div>
-              </div>
-              <input type="hidden" name="custom_style" id="input-custom-style" value="Leisure &amp; Holiday" />
+          <div class="bk-field" data-when-service="holiday">
+            <span class="bk-label" id="bk-include-label">Include in the package</span>
+            <div class="bk-chips" aria-labelledby="bk-include-label" role="group">
+              <label class="bk-chip"><input type="checkbox" name="include" value="Flights" checked /><span>Flights</span></label>
+              <label class="bk-chip"><input type="checkbox" name="include" value="Hotel" checked /><span>Hotel</span></label>
+              <label class="bk-chip"><input type="checkbox" name="include" value="Visa" /><span>Visa</span></label>
+              <label class="bk-chip"><input type="checkbox" name="include" value="Airport transfers" /><span>Airport transfers</span></label>
+              <label class="bk-chip"><input type="checkbox" name="include" value="Tours" /><span>Tours</span></label>
             </div>
           </div>
-        </div>
 
-        <div class="form-group full">
-          <label class="field-label" for="custom-notes">Notes or Special Preferences <span class="opt">· Optional</span></label>
-          <input id="custom-notes" name="custom_notes" type="text" placeholder="e.g. Itinerary planning, visa handling, private transfers" maxlength="220" />
-        </div>
-      </div>
+          <div class="bk-field" data-when-service="visa">
+            <span class="bk-label" id="bk-history-label">Have you had this visa before?</span>
+            <div class="bk-chips" role="radiogroup" aria-labelledby="bk-history-label">
+              <label class="bk-chip"><input type="radio" name="history" value="First time" checked /><span>First time</span></label>
+              <label class="bk-chip"><input type="radio" name="history" value="Had one before" /><span>Had one before</span></label>
+              <label class="bk-chip"><input type="radio" name="history" value="Refused before" /><span>Refused before</span></label>
+            </div>
+          </div>
+        </section>
 
-      <!-- Action -->
-      <div class="form-action full">
-        <button class="concierge-submit-btn" id="trip-submit-btn" type="submit">
-          <span class="btn-text">Send Booking Request</span>
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </button>
-      </div>
+        <!-- Step 4: contact & review -->
+        <section class="bk-step" data-step="4" aria-labelledby="bk-contact-title" hidden>
+          <p class="bk-kicker">Step 4 of 4</p>
+          <h2 id="bk-contact-title">Where should we reach you?</h2>
+          <p class="bk-sub">We’ll open WhatsApp with your brief ready to send.</p>
+          <label class="bk-field bk-input"><span class="bk-label">Full name</span><input type="text" name="name" id="bk-name" autocomplete="name" maxlength="80" placeholder="e.g. Amina Bello" required /></label>
+          <div class="bk-row">
+            <label class="bk-field bk-input"><span class="bk-label">Phone / WhatsApp <small>optional</small></span><input type="tel" name="phone" autocomplete="tel" maxlength="24" placeholder="e.g. 0803 000 0000" /></label>
+            <label class="bk-field bk-input"><span class="bk-label">Email <small>optional</small></span><input type="email" name="email" autocomplete="email" maxlength="120" placeholder="you@example.com" /></label>
+          </div>
+          <label class="bk-field bk-input"><span class="bk-label">Anything else? <small>optional</small></span><textarea name="notes" rows="3" maxlength="400" placeholder="Budget, a celebration, special requests…"></textarea></label>
+        </section>
 
-      <div class="concierge-trust-strip full">
-        <span>Direct NGN &amp; FX Settlement</span>
-        <span class="trust-sep">·</span>
-        <span>Dedicated Senior Travel Specialist</span>
-        <span class="trust-sep">·</span>
-        <span>No Hidden Fees</span>
-      </div>
-      <p class="brief-result full" role="status"></p>
-    </form>
+        <footer class="bk-foot">
+          <button class="bk-back" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg>Back</button>
+          <p class="bk-error" role="alert"></p>
+          <button class="bk-next" type="button"><span>Continue</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+          <button class="bk-submit" type="submit" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1-4.1A8 8 0 1 1 20 12Z" /></svg><span>Send on WhatsApp</span></button>
+        </footer>
+      </form>
+    </div>
   </div>
 </dialog>
-<script src="script.js"></script>
+<script src="script.js?v=10"></script>
 </body>
 </html>

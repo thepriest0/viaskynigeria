@@ -75,597 +75,325 @@ mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', 
 window.matchMedia('(min-width: 761px)').addEventListener('change', closeMenu);
 
 // =======================================================
-// VIA SKY LUXURY CONCIERGE MODAL & SERVICE WORKFLOWS
+// BOOKING: four short steps with a live summary, sent on WhatsApp
 // =======================================================
-const dialog = document.getElementById('concierge-dialog') || document.querySelector('.trip-dialog');
-const form = document.getElementById('trip-form') || document.querySelector('.brief-form');
-const result = document.querySelector('.brief-result');
+const dialog = document.getElementById('concierge-dialog');
+const form = document.getElementById('trip-form');
 
 // Business WhatsApp number: 08138252839 -> +234 813 825 2839
 const VIASKY_WHATSAPP_NUMBER = '2348138252839';
 
-// Service Configurations & Tailored Workflows
-const SERVICE_CONFIG = {
-  visa: {
-    key: 'visa',
-    serviceName: 'Visa Advisory & Protocol Assistance',
-    eyebrow: 'VIA SKY VISA PROTOCOL & IMMIGRATION DESK',
-    title: 'Visa Advisory & <em>Protocol Assistance.</em>',
-    desc: 'Ensure your visa application is thorough, accurate, and embassy-ready. A dedicated immigration advisor will review your documentation and guide your submission directly on WhatsApp.',
-    btnText: 'Send Visa Advisory Request',
-    fieldsetId: 'fieldset-visa',
-    validate(f) {
-      const dest = f.elements.visa_destination;
-      if (!dest || !dest.value.trim()) {
-        dest?.focus();
-        dest?.setCustomValidity('Please enter your destination country.');
-        dest?.reportValidity();
-        return false;
-      }
-      dest.setCustomValidity('');
-      return true;
-    },
-    formatMessage(f) {
-      const dest = (f.elements.visa_destination?.value || '').trim();
-      const visaType = f.elements.visa_type?.value || 'Tourist / Visitor Visa';
-      const date = f.elements.visa_date?.value || 'Flexible / To be confirmed';
-      const applicants = f.elements.visa_applicants?.value || '1 Applicant (Solo)';
-      const history = f.elements.visa_history?.value || 'First-Time Applicant';
-      const passport = (f.elements.visa_passport?.value || 'Nigerian Passport').trim();
-      const notes = (f.elements.visa_notes?.value || '').trim();
+const DEFAULT_TRIP_IMAGE = 'assets/v2-concepts/01-above-the-clouds.png';
 
-      let msg = `Hello ViaSky Private Travel Desk,\n\n` +
-        `I would like to submit a Visa Advisory & Protocol Assistance request:\n\n` +
-        `• Service: Visa Advisory & Protocol Assistance\n` +
-        `• Destination Country: ${dest}\n` +
-        `• Visa Category: ${visaType}\n` +
-        `• Target Travel Date: ${date}\n` +
-        `• Applicants: ${applicants}\n` +
-        `• Passport / Nationality: ${passport}\n` +
-        `• Visa History: ${history}\n`;
+const DESTINATIONS = [
+  { code: 'LHR', city: 'London', country: 'United Kingdom', image: 'assets/destinations/london.jpg', visas: ['Visit visa', 'Student visa'] },
+  { code: 'JED', city: 'Makkah & Madinah', country: 'Saudi Arabia', visas: ['Umrah visa', 'Tourist visa'] },
+  { code: 'IST', city: 'Istanbul', country: 'Turkey' },
+  { code: 'KUL', city: 'Kuala Lumpur', country: 'Malaysia' },
+  { code: 'SIN', city: 'Singapore', country: 'Singapore' },
+  { code: 'BKK', city: 'Bangkok & Phuket', country: 'Thailand' },
+  { code: 'DPS', city: 'Bali', country: 'Indonesia', image: 'assets/booking/coastline.jpg' },
+  { code: 'CAN', city: 'Guangzhou & Shanghai', country: 'China' },
+  { code: 'DXB', city: 'Dubai', country: 'United Arab Emirates', image: 'assets/destinations/dubai.jpg' },
+  { code: 'CPT', city: 'Cape Town & Johannesburg', country: 'South Africa' },
+  { code: 'ZNZ', city: 'Zanzibar', country: 'Tanzania', image: 'assets/destinations/zanzibar.jpg' },
+  { code: 'RAK', city: 'Marrakech', country: 'Morocco', image: 'assets/v2-concepts/03-desert-retreat.png' }
+];
+const OTHER_DESTINATION = { code: 'ANY', city: 'Somewhere else', country: 'Tell us in your notes' };
+const DEFAULT_VISAS = ['Tourist visa', 'Business visa'];
 
-      if (notes) {
-        msg += `• Case Notes & Requests: ${notes}\n`;
-      }
+const ORIGINS = { LOS: 'Lagos', ABV: 'Abuja', PHC: 'Port Harcourt', KAN: 'Kano', ENU: 'Enugu' };
 
-      msg += `\nPlease review my visa readiness and advise on document requirements. Thank you.`;
-      return msg;
-    }
-  },
-  flight: {
-    key: 'flight',
-    serviceName: 'Flight Bookings (Economy, Business, First)',
-    eyebrow: 'VIA SKY FLIGHT CONCIERGE',
-    title: 'Book your bespoke <em>flight.</em>',
-    desc: 'Access competitive corporate and luxury fares, priority seating, and tailored flight routing from Nigeria to any global destination.',
-    btnText: 'Send Flight Booking Request',
-    fieldsetId: 'fieldset-flight',
-    validate(f) {
-      const origin = f.elements.flight_origin;
-      const dest = f.elements.flight_destination;
-      const dept = f.elements.flight_departure;
-
-      if (!origin || !origin.value.trim()) {
-        origin?.focus();
-        origin?.setCustomValidity('Please enter your departure city or airport.');
-        origin?.reportValidity();
-        return false;
-      }
-      origin.setCustomValidity('');
-
-      if (!dest || !dest.value.trim()) {
-        dest?.focus();
-        dest?.setCustomValidity('Please enter your destination airport or city.');
-        dest?.reportValidity();
-        return false;
-      }
-      dest.setCustomValidity('');
-
-      if (!dept || !dept.value) {
-        dept?.focus();
-        dept?.setCustomValidity('Please select your departure date.');
-        dept?.reportValidity();
-        return false;
-      }
-      dept.setCustomValidity('');
-      return true;
-    },
-    formatMessage(f) {
-      const tripType = f.querySelector('input[name="flight_trip_type"]:checked')?.value || 'Round Trip';
-      const origin = (f.elements.flight_origin?.value || '').trim();
-      const dest = (f.elements.flight_destination?.value || '').trim();
-      const dept = f.elements.flight_departure?.value || 'Flexible';
-      const returnDate = f.elements.flight_return?.value;
-      const cabin = f.elements.flight_cabin?.value || 'Economy Class';
-      const passengers = f.elements.flight_passengers?.value || '1 Adult';
-      const airline = (f.elements.flight_airline?.value || '').trim();
-
-      let msg = `Hello ViaSky Flight Concierge,\n\n` +
-        `I would like to request flight options and fare quotes:\n\n` +
-        `• Service: Flight Bookings\n` +
-        `• Trip Type: ${tripType}\n` +
-        `• Departing From: ${origin}\n` +
-        `• Flying To: ${dest}\n` +
-        `• Departure Date: ${dept}\n`;
-
-      if (tripType === 'Round Trip' && returnDate) {
-        msg += `• Return Date: ${returnDate}\n`;
-      }
-
-      msg += `• Cabin Class: ${cabin}\n` +
-        `• Passengers: ${passengers}\n`;
-
-      if (airline) {
-        msg += `• Preferred Airline & Notes: ${airline}\n`;
-      }
-
-      msg += `\nPlease share available flight itineraries and booking details. Thank you.`;
-      return msg;
-    }
-  },
-  hotel: {
-    key: 'hotel',
-    serviceName: 'Hotels & Luxury Stays',
-    eyebrow: 'VIA SKY LUXURY SANCTUARIES',
-    title: 'Curated hotels & <em>luxury stays.</em>',
-    desc: 'Handpicked 5-star hotels, secluded beachfront villas, and executive suites worldwide with VIP privileges and seamless check-in.',
-    btnText: 'Send Accommodation Request',
-    fieldsetId: 'fieldset-hotel',
-    validate(f) {
-      const dest = f.elements.hotel_destination;
-      const cin = f.elements.hotel_checkin;
-      const cout = f.elements.hotel_checkout;
-
-      if (!dest || !dest.value.trim()) {
-        dest?.focus();
-        dest?.setCustomValidity('Please enter your destination city or area.');
-        dest?.reportValidity();
-        return false;
-      }
-      dest.setCustomValidity('');
-
-      if (!cin || !cin.value) {
-        cin?.focus();
-        cin?.setCustomValidity('Please choose your check-in date.');
-        cin?.reportValidity();
-        return false;
-      }
-      cin.setCustomValidity('');
-
-      if (!cout || !cout.value) {
-        cout?.focus();
-        cout?.setCustomValidity('Please choose your check-out date.');
-        cout?.reportValidity();
-        return false;
-      }
-      cout.setCustomValidity('');
-      return true;
-    },
-    formatMessage(f) {
-      const dest = (f.elements.hotel_destination?.value || '').trim();
-      const cin = f.elements.hotel_checkin?.value || 'TBD';
-      const cout = f.elements.hotel_checkout?.value || 'TBD';
-      const type = f.elements.hotel_type?.value || '5-Star Luxury Hotel';
-      const rooms = f.elements.hotel_rooms?.value || '2 Guests (1 Room)';
-      const board = f.elements.hotel_board?.value || 'Bed & Breakfast (B&B)';
-      const notes = (f.elements.hotel_notes?.value || '').trim();
-
-      let msg = `Hello ViaSky Luxury Sanctuaries Desk,\n\n` +
-        `I would like to enquire about curated hotel accommodations:\n\n` +
-        `• Service: Hotels & Luxury Stays\n` +
-        `• Destination City / Area: ${dest}\n` +
-        `• Check-in Date: ${cin}\n` +
-        `• Check-out Date: ${cout}\n` +
-        `• Property Type: ${type}\n` +
-        `• Rooms & Guests: ${rooms}\n` +
-        `• Board Preference: ${board}\n`;
-
-      if (notes) {
-        msg += `• Special Requests & Notes: ${notes}\n`;
-      }
-
-      msg += `\nPlease share curated property options, rates, and inclusions. Thank you.`;
-      return msg;
-    }
-  },
-  holiday: {
-    key: 'holiday',
-    serviceName: 'Complete Holiday (Flights, Hotels & Visas)',
-    eyebrow: 'VIA SKY SIGNATURE GETAWAYS',
-    title: 'Design your complete <em>holiday.</em>',
-    desc: 'From international flights and visa protocol to handpicked resorts and private excursions, we coordinate every single detail of your getaway.',
-    btnText: 'Send Holiday Request',
-    fieldsetId: 'fieldset-holiday',
-    validate(f) {
-      const dest = f.elements.holiday_destination;
-      if (!dest || !dest.value.trim()) {
-        dest?.focus();
-        dest?.setCustomValidity('Please enter your holiday destination.');
-        dest?.reportValidity();
-        return false;
-      }
-      dest.setCustomValidity('');
-      return true;
-    },
-    formatMessage(f) {
-      const dest = (f.elements.holiday_destination?.value || '').trim();
-      const origin = (f.elements.holiday_origin?.value || 'Flexible').trim();
-      const dept = f.elements.holiday_departure?.value || 'Flexible / To be confirmed';
-      const duration = f.elements.holiday_duration?.value || '7 Days (1 Week)';
-      const travellers = f.elements.holiday_travellers?.value || '2 Travellers (Couple)';
-      const scope = f.elements.holiday_scope?.value || 'All-Inclusive (Flights, Hotel, Visa & Tours)';
-      const style = f.elements.holiday_style?.value || 'Luxury Relaxation & Beach';
-      const notes = (f.elements.holiday_notes?.value || '').trim();
-
-      let msg = `Hello ViaSky Signature Getaways Desk,\n\n` +
-        `I would like to design a complete holiday itinerary:\n\n` +
-        `• Service: Complete Holiday Planning\n` +
-        `• Holiday Destination: ${dest}\n` +
-        `• Departing From: ${origin}\n` +
-        `• Travel Date / Window: ${dept}\n` +
-        `• Duration: ${duration}\n` +
-        `• Travellers: ${travellers}\n` +
-        `• Package Inclusions: ${scope}\n` +
-        `• Holiday Style: ${style}\n`;
-
-      if (notes) {
-        msg += `• Special Preferences / Celebration: ${notes}\n`;
-      }
-
-      msg += `\nPlease prepare a bespoke holiday proposal and itinerary. Thank you.`;
-      return msg;
-    }
-  },
-  custom: {
-    key: 'custom',
-    serviceName: 'Custom Bespoke Travel Itinerary',
-    eyebrow: 'VIA SKY PRIVATE TRAVEL DESK',
-    title: 'Plan your bespoke <em>journey.</em>',
-    desc: 'Tell us about your upcoming travel. A dedicated travel specialist will review your preferences and share tailored flight itineraries, curated stays, and visa advisory directly on WhatsApp.',
-    btnText: 'Send Booking Request',
-    fieldsetId: 'fieldset-custom',
-    validate(f) {
-      const dest = f.elements.custom_destination;
-      if (!dest || !dest.value.trim()) {
-        dest?.focus();
-        dest?.setCustomValidity('Please enter your destination or country.');
-        dest?.reportValidity();
-        return false;
-      }
-      dest.setCustomValidity('');
-      return true;
-    },
-    formatMessage(f) {
-      const dest = (f.elements.custom_destination?.value || '').trim();
-      const origin = (f.elements.custom_origin?.value || 'Flexible / To be confirmed').trim();
-      const dept = f.elements.custom_departure?.value || 'Flexible / To be confirmed';
-      const travellers = f.elements.custom_travellers?.value || '2 Travellers';
-      const style = f.elements.custom_style?.value || 'Leisure & Holiday';
-      const notes = (f.elements.custom_notes?.value || '').trim();
-
-      let msg = `Hello ViaSky Private Travel Desk,\n\n` +
-        `I would like to submit a booking request:\n\n` +
-        `• Service Required: Custom Bespoke Travel Itinerary\n` +
-        `• Departing From: ${origin}\n` +
-        `• Destination: ${dest}\n` +
-        `• Departure Date: ${dept}\n` +
-        `• Travellers: ${travellers}\n` +
-        `• Travel Style: ${style}\n`;
-
-      if (notes) {
-        msg += `• Notes & Preferences: ${notes}\n`;
-      }
-
-      msg += `\nPlease share curated flight schedules, luxury stays, and itinerary options. Thank you.`;
-      return msg;
-    }
-  }
+const SERVICES = {
+  visa: { label: 'Visa assistance', start: 'When do you plan to travel?', end: null, sub: 'An approximate date helps us plan around embassy appointment times.' },
+  flight: { label: 'Flights', start: 'Departure date', end: 'Return date', sub: 'Rough dates are fine. We’ll confirm everything with you.' },
+  hotel: { label: 'Hotel stay', start: 'Check-in', end: 'Check-out', sub: 'Tell us when you need the room and who is staying.' },
+  holiday: { label: 'Holiday package', start: 'Departure date', end: 'Return date', sub: 'Rough dates are fine. We’ll build the package around them.' },
+  umrah: { label: 'Umrah', start: 'Departure date', end: 'Return date', sub: 'Tell us roughly when you’d like to go and who is travelling.' }
 };
 
 function resolveServiceKey(match) {
-  if (!match) return 'holiday';
+  if (!match) return null;
   const m = match.toLowerCase();
+  if (SERVICES[m]) return m;
+  if (m.includes('umrah')) return 'umrah';
   if (m.includes('visa')) return 'visa';
   if (m.includes('flight')) return 'flight';
   if (m.includes('hotel') || m.includes('stay') || m.includes('accom')) return 'hotel';
   if (m.includes('holiday') || m.includes('complete') || m.includes('tour')) return 'holiday';
-  if (m.includes('custom') || m.includes('bespoke')) return 'custom';
-  return 'holiday';
+  return null;
 }
 
-let activeServiceKey = 'holiday';
+const findDestination = code => DESTINATIONS.find(d => d.code === code) || (code === OTHER_DESTINATION.code ? OTHER_DESTINATION : null);
 
-// Set minimum date for all date inputs in the modal
-function setDateMinimums() {
+const booking = (() => {
+  if (!dialog || !form) return { open() {} };
+
+  const steps = [...form.querySelectorAll('.bk-step')];
+  const progressItems = [...dialog.querySelectorAll('.bk-progress li')];
+  const backButton = form.querySelector('.bk-back');
+  const nextButton = form.querySelector('.bk-next');
+  const submitButton = form.querySelector('.bk-submit');
+  const errorText = form.querySelector('.bk-error');
+  const destinationGrid = document.getElementById('bk-destinations');
+  const visaTypeField = form.querySelector('.bk-visa-type');
+  const visaTypeChips = document.getElementById('bk-visa-type');
+  const dateStart = document.getElementById('bk-date-start');
+  const dateEnd = document.getElementById('bk-date-end');
+  const dateEndWrap = document.getElementById('bk-date-end-wrap');
+  const flexible = document.getElementById('bk-flexible');
+  const asideImage = document.getElementById('bk-aside-img');
+  const summary = id => document.getElementById(id);
+  let current = 1;
+
+  // Destination options are built from the same list as the destinations section.
+  destinationGrid.innerHTML = [...DESTINATIONS, OTHER_DESTINATION].map(d => `
+    <label class="bk-dest${d === OTHER_DESTINATION ? ' is-other' : ''}">
+      <input type="radio" name="destination" value="${d.code}" />
+      <span class="bk-dest-code">${d === OTHER_DESTINATION ? '?' : d.code}</span>
+      <span class="bk-dest-text"><b>${d.city}</b><small>${d.country}</small></span>
+    </label>`).join('');
+
   const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const minDateStr = `${yyyy}-${mm}-${dd}`;
+  const isoToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  dateStart.min = isoToday;
+  dateEnd.min = isoToday;
 
-  if (form) {
-    const dateInputs = form.querySelectorAll('input[type="date"]');
-    dateInputs.forEach(input => {
-      input.min = minDateStr;
+  const value = name => form.querySelector(`[name="${name}"]:checked`)?.value || '';
+  const service = () => value('service');
+  const destination = () => findDestination(value('destination'));
+
+  function renderVisaTypes() {
+    const options = destination()?.visas || DEFAULT_VISAS;
+    const previous = value('visa_type');
+    visaTypeChips.innerHTML = options.map((label, i) => `
+      <label class="bk-chip"><input type="radio" name="visa_type" value="${label}"${(previous ? previous === label : i === 0) ? ' checked' : ''} /><span>${label}</span></label>`).join('');
+    if (!value('visa_type')) visaTypeChips.querySelector('input').checked = true;
+  }
+
+  function applyService() {
+    const key = service();
+    const config = SERVICES[key];
+    form.querySelectorAll('[data-when-service]').forEach(el => {
+      el.hidden = !key || !el.dataset.whenService.split(' ').includes(key);
     });
-
-    // Date chaining for hotels & flights
-    const cin = form.elements.hotel_checkin;
-    const cout = form.elements.hotel_checkout;
-    if (cin && cout) {
-      cin.addEventListener('change', () => {
-        if (cin.value) cout.min = cin.value;
-      });
+    if (config) {
+      document.getElementById('bk-date-start-label').textContent = config.start;
+      document.getElementById('bk-details-sub').textContent = config.sub;
+      if (config.end) document.getElementById('bk-date-end-label').textContent = config.end;
     }
+    const oneWay = key === 'flight' && value('trip_type') === 'One way';
+    dateEndWrap.hidden = !config?.end || oneWay;
+    if (key === 'umrah') checkDestination('JED');
+    if (key === 'visa') renderVisaTypes();
+  }
 
-    const fDept = form.elements.flight_departure;
-    const fRet = form.elements.flight_return;
-    if (fDept && fRet) {
-      fDept.addEventListener('change', () => {
-        if (fDept.value) fRet.min = fDept.value;
-      });
+  function checkDestination(code) {
+    const input = form.querySelector(`input[name="destination"][value="${code}"]`);
+    if (input) input.checked = true;
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
+
+  function travellerText() {
+    const adults = Number(form.elements.adults.value);
+    const children = Number(form.elements.children.value);
+    let text = `${adults} adult${adults === 1 ? '' : 's'}`;
+    if (children) text += `, ${children} child${children === 1 ? '' : 'ren'}`;
+    return text;
+  }
+
+  function dateText() {
+    if (!dateStart.value) return flexible.checked ? 'Flexible' : 'To confirm';
+    const end = !dateEndWrap.hidden && dateEnd.value ? ` – ${formatDate(dateEnd.value)}` : '';
+    return formatDate(dateStart.value) + end;
+  }
+
+  let lastImage = '';
+  function updateSummary() {
+    const key = service();
+    const dest = destination();
+    summary('sum-service').textContent = SERVICES[key]?.label || '—';
+    summary('sum-to').textContent = !dest ? '—' : dest === OTHER_DESTINATION ? 'Somewhere else' : dest.city;
+    summary('sum-date').textContent = dateText();
+    summary('sum-pax').textContent = travellerText();
+
+    const image = dest?.image || DEFAULT_TRIP_IMAGE;
+    if (image !== lastImage) {
+      lastImage = image;
+      asideImage.classList.add('is-swapping');
+      setTimeout(() => {
+        asideImage.src = image;
+        asideImage.onload = () => asideImage.classList.remove('is-swapping');
+        if (asideImage.complete) asideImage.classList.remove('is-swapping');
+      }, 200);
     }
   }
-}
-setDateMinimums();
 
-// Trip Type segmented pills (Flight booking)
-function initTripTypePills() {
-  const tripPills = document.querySelectorAll('.trip-type-pill');
-  const returnWrap = document.getElementById('flight-return-wrap');
-  const parentRow = returnWrap?.closest('.form-row-3');
+  function showError(message, field) {
+    errorText.textContent = message;
+    if (field) {
+      field.setAttribute('aria-invalid', 'true');
+      field.focus();
+    }
+    return false;
+  }
 
-  tripPills.forEach(pill => {
-    const radio = pill.querySelector('input[type="radio"]');
-    if (!radio) return;
+  function validate(step) {
+    errorText.textContent = '';
+    form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+    if (step === 1 && !service()) return showError('Choose a service to continue.');
+    if (step === 2 && !destination()) return showError('Choose where you’re headed.');
+    if (step === 3 && !flexible.checked) {
+      if (!dateStart.value) return showError('Add a date, or tick “flexible”.', dateStart);
+      if (!dateEndWrap.hidden && service() === 'hotel' && !dateEnd.value) return showError('Add your check-out date.', dateEnd);
+      if (!dateEndWrap.hidden && dateEnd.value && dateEnd.value < dateStart.value) return showError('The end date is before the start date.', dateEnd);
+    }
+    if (step === 4 && !form.elements.name.value.trim()) return showError('Tell us your name.', form.elements.name);
+    return true;
+  }
 
-    radio.addEventListener('change', () => {
-      tripPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-
-      if (radio.value === 'One Way') {
-        if (returnWrap) returnWrap.classList.add('is-hidden');
-        if (parentRow) parentRow.classList.add('has-hidden-return');
-      } else {
-        if (returnWrap) returnWrap.classList.remove('is-hidden');
-        if (parentRow) parentRow.classList.remove('has-hidden-return');
-      }
+  function goTo(step, direction = 1) {
+    current = step;
+    steps.forEach(section => {
+      const active = Number(section.dataset.step) === step;
+      section.hidden = !active;
+      section.classList.toggle('is-active', active);
+      section.classList.toggle('is-back', active && direction < 0);
+      if (active) section.scrollTop = 0;
     });
+    progressItems.forEach((item, i) => {
+      item.classList.toggle('is-current', i + 1 === step);
+      item.classList.toggle('is-done', i + 1 < step);
+    });
+    backButton.hidden = step === 1;
+    nextButton.hidden = step === 4;
+    submitButton.hidden = step !== 4;
+    errorText.textContent = '';
+    updateSummary();
+  }
+
+  // Umrah already knows its destination, so it skips straight to the details.
+  const nextStep = from => (from === 1 && service() === 'umrah' ? 3 : from + 1);
+  const previousStep = from => (from === 3 && service() === 'umrah' ? 1 : from - 1);
+
+  nextButton.addEventListener('click', () => {
+    if (validate(current)) goTo(nextStep(current), 1);
   });
-}
-initTripTypePills();
+  backButton.addEventListener('click', () => goTo(previousStep(current), -1));
 
-// 1. Reusable Custom Dropdown Component
-function initCustomSelect(container) {
-  const trigger = container.querySelector('.select-trigger');
-  const valueDisplay = container.querySelector('.select-value');
-  const dropdown = container.querySelector('.select-dropdown');
-  const hiddenInput = container.querySelector('input[type="hidden"]');
-  const options = container.querySelectorAll('.select-option');
-
-  if (!trigger || !dropdown) return;
-
-  const close = () => {
-    container.classList.remove('is-open');
-    container.closest('.form-row-2, .form-row-3, .form-group')?.classList.remove('has-select-open');
-    trigger.setAttribute('aria-expanded', 'false');
-  };
-
-  const open = () => {
-    document.querySelectorAll('.custom-select.is-open').forEach(other => {
-      if (other !== container) {
-        other.classList.remove('is-open');
-        other.closest('.form-row-2, .form-row-3, .form-group')?.classList.remove('has-select-open');
-        other.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
-      }
-    });
-    container.classList.add('is-open');
-    container.closest('.form-row-2, .form-row-3, .form-group')?.classList.add('has-select-open');
-    trigger.setAttribute('aria-expanded', 'true');
-  };
-
-  trigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (container.classList.contains('is-open')) close();
-    else open();
-  });
-
-  const select = (option) => {
-    const val = option.dataset.value;
-    if (hiddenInput) {
-      hiddenInput.value = val;
-      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+  form.addEventListener('change', event => {
+    const name = event.target.name;
+    if (name === 'service' || name === 'trip_type') applyService();
+    if (name === 'destination' && service() === 'visa') renderVisaTypes();
+    if (name === 'date_start' && dateStart.value) {
+      dateEnd.min = dateStart.value;
+      if (dateEnd.value && dateEnd.value < dateStart.value) dateEnd.value = '';
     }
-    if (valueDisplay) valueDisplay.textContent = option.textContent.trim();
-
-    options.forEach(opt => {
-      opt.classList.remove('is-active');
-      opt.setAttribute('aria-selected', 'false');
-    });
-    option.classList.add('is-active');
-    option.setAttribute('aria-selected', 'true');
-    close();
-    trigger.focus();
-
-    // If this is the main service selector, activate the service view
-    if (container.id === 'select-service') {
-      const newKey = resolveServiceKey(val);
-      activateServiceView(newKey, false);
-    }
-  };
-
-  options.forEach(option => {
-    option.setAttribute('tabindex', '0');
-    option.addEventListener('click', (e) => {
-      e.stopPropagation();
-      select(option);
-    });
-    option.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        e.stopPropagation();
-        select(option);
-      }
-    });
-  });
-}
-
-document.querySelectorAll('.custom-select').forEach(initCustomSelect);
-
-// Close open dropdowns on outside click or Esc
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.custom-select')) {
-    document.querySelectorAll('.custom-select.is-open').forEach(sel => {
-      sel.classList.remove('is-open');
-      sel.closest('.form-row-2, .form-row-3, .form-group')?.classList.remove('has-select-open');
-      sel.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
-    });
-  }
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.custom-select.is-open').forEach(sel => {
-      sel.classList.remove('is-open');
-      sel.closest('.form-row-2, .form-row-3, .form-group')?.classList.remove('has-select-open');
-      sel.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
-    });
-  }
-});
-
-// Dynamic Service Activator
-function activateServiceView(key, updateDropdown = true) {
-  const config = SERVICE_CONFIG[key] || SERVICE_CONFIG.holiday;
-  activeServiceKey = config.key;
-
-  // 1. Update modal header
-  const eyebrowEl = document.getElementById('trip-eyebrow');
-  const titleEl = document.getElementById('trip-title');
-  const descEl = document.getElementById('trip-desc');
-  const submitBtnEl = document.getElementById('trip-submit-btn');
-
-  if (eyebrowEl) eyebrowEl.textContent = config.eyebrow;
-  if (titleEl) titleEl.innerHTML = config.title;
-  if (descEl) descEl.textContent = config.desc;
-  if (submitBtnEl) {
-    const btnTextSpan = submitBtnEl.querySelector('.btn-text');
-    if (btnTextSpan) btnTextSpan.textContent = config.btnText;
-  }
-
-  // 2. Sync main service dropdown if requested
-  if (updateDropdown) {
-    const serviceSelect = document.getElementById('select-service');
-    if (serviceSelect) {
-      const options = serviceSelect.querySelectorAll('.select-option');
-      let matchedOpt = null;
-      options.forEach(opt => {
-        const val = opt.dataset.value || '';
-        if (val.toLowerCase().includes(config.key) || (config.key === 'holiday' && val.toLowerCase().includes('holiday'))) {
-          matchedOpt = opt;
-        }
-      });
-      if (matchedOpt) {
-        options.forEach(opt => {
-          opt.classList.remove('is-active');
-          opt.setAttribute('aria-selected', 'false');
-        });
-        matchedOpt.classList.add('is-active');
-        matchedOpt.setAttribute('aria-selected', 'true');
-        const valDisplay = serviceSelect.querySelector('.select-value');
-        const hiddenInput = serviceSelect.querySelector('input[type="hidden"]');
-        if (valDisplay) valDisplay.textContent = matchedOpt.textContent.trim();
-        if (hiddenInput) hiddenInput.value = matchedOpt.dataset.value;
-      }
-    }
-  }
-
-  // 3. Toggle fieldsets and disable inactive inputs so HTML5 validation passes cleanly
-  const allFieldsets = document.querySelectorAll('.service-fieldset');
-  allFieldsets.forEach(fs => {
-    const isCurrent = fs.id === config.fieldsetId;
-    if (isCurrent) {
-      fs.classList.add('is-active');
-      fs.querySelectorAll('input, select, textarea').forEach(input => {
-        input.disabled = false;
-        input.setCustomValidity('');
-      });
-    } else {
-      fs.classList.remove('is-active');
-      fs.querySelectorAll('input, select, textarea').forEach(input => {
-        input.disabled = true;
-        input.setCustomValidity('');
-      });
+    if (event.target.matches('[aria-invalid]')) event.target.removeAttribute('aria-invalid');
+    errorText.textContent = '';
+    updateSummary();
+    // A single choice on steps 1 and 2 moves the brief along.
+    if ((name === 'service' && current === 1) || (name === 'destination' && current === 2 && service() !== 'visa')) {
+      setTimeout(() => { if (validate(current)) goTo(nextStep(current), 1); }, 260);
     }
   });
+  form.addEventListener('input', event => {
+    if (event.target.matches('[aria-invalid]')) event.target.removeAttribute('aria-invalid');
+  });
 
-  // Clear any existing feedback text
-  if (result) {
-    result.textContent = '';
-    result.className = 'brief-result full';
+  form.querySelectorAll('.bk-stepper').forEach(stepper => {
+    const input = stepper.querySelector('input');
+    const min = Number(stepper.dataset.min), max = Number(stepper.dataset.max);
+    const buttons = stepper.querySelectorAll('button');
+    const sync = () => {
+      buttons[0].disabled = Number(input.value) <= min;
+      buttons[1].disabled = Number(input.value) >= max;
+    };
+    buttons.forEach(button => button.addEventListener('click', () => {
+      input.value = Math.min(max, Math.max(min, Number(input.value) + Number(button.dataset.delta)));
+      sync();
+      updateSummary();
+    }));
+    sync();
+  });
+
+  function buildMessage() {
+    const key = service();
+    const dest = destination();
+    const lines = ['Hello ViaSky, I’d like help with a trip.', ''];
+    const add = (label, text) => { if (text) lines.push(`• ${label}: ${text}`); };
+    add('Service', SERVICES[key].label);
+    if (key === 'visa') add('Visa type', value('visa_type'));
+    add('Destination', dest === OTHER_DESTINATION ? 'Somewhere else (see notes)' : `${dest.city}, ${dest.country} (${dest.code})`);
+    if (key !== 'visa' && key !== 'hotel') add('Flying from', `${ORIGINS[value('origin')]} (${value('origin')})`);
+    if (key === 'flight') add('Trip', `${value('trip_type')} · ${value('cabin')}`);
+    const start = dateStart.value ? formatDate(dateStart.value) : '';
+    const end = !dateEndWrap.hidden && dateEnd.value ? formatDate(dateEnd.value) : '';
+    add('Dates', [start && end ? `${start} – ${end}` : start, flexible.checked ? 'flexible' : ''].filter(Boolean).join(', ') || 'To confirm');
+    add('Travellers', travellerText());
+    if (['hotel', 'holiday', 'umrah'].includes(key)) add('Accommodation', value('stay'));
+    if (key === 'holiday') add('Include', [...form.querySelectorAll('[name="include"]:checked')].map(i => i.value).join(', '));
+    if (key === 'visa') add('Visa history', value('history'));
+    lines.push('');
+    add('Name', form.elements.name.value.trim());
+    add('Phone', form.elements.phone.value.trim());
+    add('Email', form.elements.email.value.trim());
+    const notes = form.elements.notes.value.trim();
+    if (notes) lines.push('', `Notes: ${notes}`);
+    return lines.join('\n');
   }
-}
 
-// 2. Modal Open & Triggers from [data-plan]
-document.querySelectorAll('[data-plan]').forEach(button => button.addEventListener('click', () => {
-  closeMenu();
-  const requestedService = button.dataset.service;
-  const targetKey = resolveServiceKey(requestedService);
-  activateServiceView(targetKey, true);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    if (current < 4) {
+      nextButton.click();
+      return;
+    }
+    if (!validate(4)) return;
+    const url = `https://wa.me/${VIASKY_WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessage())}`;
+    submitButton.querySelector('span').textContent = 'Opening WhatsApp…';
+    window.open(url, '_blank', 'noopener,noreferrer');
+    setTimeout(() => {
+      submitButton.querySelector('span').textContent = 'Send on WhatsApp';
+      dialog.close();
+    }, 600);
+  });
 
-  if (dialog) dialog.showModal();
-}));
-
-const dialogCloseBtn = document.querySelector('.dialog-close');
-if (dialogCloseBtn) dialogCloseBtn.addEventListener('click', () => dialog?.close());
-if (dialog) {
+  dialog.querySelector('.bk-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;
     const r = dialog.getBoundingClientRect();
     if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close();
   });
-}
+  dialog.addEventListener('close', () => document.documentElement.classList.remove('menu-is-open'));
 
-// Initialize default view (Complete Holiday or Custom)
-activateServiceView('holiday', true);
+  function open({ service: requested, destination: code } = {}) {
+    const key = resolveServiceKey(requested);
+    form.querySelectorAll('input[name="service"], input[name="destination"]').forEach(input => { input.checked = false; });
+    if (key) form.querySelector(`input[name="service"][value="${key}"]`).checked = true;
+    if (code) checkDestination(code);
+    applyService();
+    const skipDestination = service() === 'umrah' || (destination() && service() !== 'visa');
+    const start = !service() ? 1 : skipDestination ? 3 : 2;
+    goTo(start);
+    dialog.showModal();
+    document.documentElement.classList.add('menu-is-open');
+  }
 
-// 4. Form Submission & Executive WhatsApp Payload
-if (form) {
-  form.addEventListener('submit', event => {
-    event.preventDefault();
+  applyService();
+  updateSummary();
+  return { open };
+})();
 
-    const config = SERVICE_CONFIG[activeServiceKey] || SERVICE_CONFIG.holiday;
-
-    // Validate the active service fields
-    if (!config.validate(form)) {
-      return;
-    }
-
-    const message = config.formatMessage(form);
-    const whatsappUrl = `https://wa.me/${VIASKY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-    if (result) {
-      result.textContent = 'Connecting to ViaSky Concierge on WhatsApp…';
-      result.className = 'brief-result full is-active';
-    }
-
-    setTimeout(() => {
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      dialog?.close();
-      if (result) {
-        result.textContent = '';
-        result.className = 'brief-result full';
-      }
-    }, 400);
-  });
-
-  // Clear custom validity on input for destination fields
-  ['visa_destination', 'flight_origin', 'flight_destination', 'hotel_destination', 'holiday_destination', 'custom_destination'].forEach(fieldName => {
-    const el = form.elements[fieldName];
-    if (el) {
-      el.addEventListener('input', () => el.setCustomValidity(''));
-    }
-  });
-}
+document.querySelectorAll('[data-plan]').forEach(button => button.addEventListener('click', () => {
+  closeMenu();
+  booking.open({ service: button.dataset.service, destination: button.dataset.destination });
+}));
 
 // --- World-Class Hero Dynamics: 2.5D Parallax, Atmospheric Particles, & Tactile Physics ---
 const hero = document.querySelector('.hero');
@@ -1002,15 +730,45 @@ dialog.addEventListener('close', requestFrame);
 reducedMotion.addEventListener('change', updateMotion);
 window.addEventListener('resize', fitScene);
 
-// --- Preloader Controller & Lifecycle Transition ---
+// --- Preloader: the load is the takeoff roll; full progress is the climb-out ---
 const preloader = document.getElementById('preloader');
-const preloaderMsg = document.getElementById('preloader-msg');
 const preloaderProgress = document.getElementById('preloader-progress');
-const preloaderJet = document.getElementById('preloader-jet');
 const preloaderPct = document.getElementById('preloader-pct');
-const preloaderSub = document.getElementById('preloader-sub');
+const preloaderDest = document.getElementById('preloader-dest');
+const preloaderCity = document.getElementById('preloader-city');
+const preloaderScene = document.getElementById('pl-scene');
+const preloaderJet = document.getElementById('pl-jet');
 
 let preloaderFinished = false;
+let destTimer = 0;
+
+function startDestinationCycle() {
+  let index = 0;
+  destTimer = setInterval(() => {
+    index = (index + 1) % DESTINATIONS.length;
+    preloaderDest.textContent = DESTINATIONS[index].code;
+    preloaderCity.textContent = DESTINATIONS[index].city;
+    preloaderDest.classList.remove('is-changing');
+    void preloaderDest.offsetWidth;
+    preloaderDest.classList.add('is-changing');
+  }, 420);
+}
+
+// Ground speed builds with progress; the jet rotates at 66% and leaves the runway at 74%.
+function flyJet(p, dt, state) {
+  const speed = 80 + 2600 * p * p;
+  state.ground += speed * dt;
+  const pitch = p < 0.66 ? 0 : Math.min(10, ((p - 0.66) / 0.12) * 10);
+  const climb = p < 0.74 ? 0 : Math.pow((p - 0.74) / 0.26, 1.6) * window.innerHeight * 0.16;
+  const rumble = climb ? 0 : Math.sin(state.ground * 0.21) * 0.7 * p;
+  preloaderScene.style.setProperty('--g', `${(-state.ground).toFixed(1)}px`);
+  preloaderJet.style.setProperty('--pitch', pitch.toFixed(2));
+  preloaderJet.style.setProperty('--alt', (climb + rumble).toFixed(2));
+  preloaderJet.style.setProperty('--jet-x', `${30 + p * 8}%`);
+  preloaderJet.style.setProperty('--trail', (climb * 3).toFixed(0));
+  preloaderJet.style.setProperty('--trail-o', Math.min(0.9, climb / 40).toFixed(2));
+  preloaderJet.classList.toggle('gear-up', climb > 18);
+}
 
 function initPreloader() {
   if (!preloader || reducedMotion.matches) {
@@ -1020,46 +778,32 @@ function initPreloader() {
   }
 
   let progress = 0;
-  const startTime = performance.now();
-  const minDuration = 1900; // minimum duration to appreciate the flight sequence
-  const maxDuration = 3200; // safety ceiling: prevents slow mobile connections from getting stuck
+  let lastFrame = performance.now();
+  const startTime = lastFrame;
+  const minDuration = 2800; // long enough to roll, rotate and lift off
+  const maxDuration = 4400; // safety ceiling for slow connections
+  const flight = { ground: 0 };
+  if (preloaderDest) startDestinationCycle();
 
   function updatePreloader(time) {
     const elapsed = time - startTime;
+    const dt = Math.min(0.05, (time - lastFrame) / 1000);
+    lastFrame = time;
     const isAssetReady = (artwork && artwork.complete && artwork.naturalWidth) || elapsed >= maxDuration;
-
-    // Calculate simulated progress towards 100%
-    const targetProgress = (isAssetReady && elapsed >= minDuration) || elapsed >= maxDuration ? 100 : Math.min(94, (elapsed / minDuration) * 94);
-    progress += (targetProgress - progress) * 0.14;
-
-    if (progress >= 99.2 && ((isAssetReady && elapsed >= minDuration) || elapsed >= maxDuration)) {
-      progress = 100;
-    }
+    const canFinish = (isAssetReady && elapsed >= minDuration) || elapsed >= maxDuration;
+    const targetProgress = canFinish ? 100 : Math.min(94, (elapsed / minDuration) * 94);
+    progress += (targetProgress - progress) * 0.08;
+    if (progress >= 99.4 && canFinish) progress = 100;
 
     if (preloaderProgress) preloaderProgress.style.width = `${progress.toFixed(1)}%`;
-    if (preloaderJet) preloaderJet.style.left = `${progress.toFixed(1)}%`;
-    if (preloaderPct) preloaderPct.textContent = `${Math.round(progress)}%`;
-
-    // Adaptive aeronautical status messages
-    if (preloaderMsg && preloaderSub) {
-      if (progress < 40) {
-        preloaderMsg.textContent = 'Preparing your departure...';
-        preloaderSub.textContent = 'Personal travel brief & flights';
-      } else if (progress < 80) {
-        preloaderMsg.textContent = 'Charting your journey...';
-        preloaderSub.textContent = 'From Nigeria. To everywhere.';
-      } else {
-        preloaderMsg.textContent = 'Ready for departure';
-        preloaderSub.textContent = 'Your next trip, without the stress.';
-      }
-    }
+    if (preloaderPct) preloaderPct.textContent = Math.round(progress);
+    if (preloaderJet) flyJet(progress / 100, dt, flight);
 
     if (progress >= 100 && !preloaderFinished) {
       preloaderFinished = true;
       dismissPreloader();
       return;
     }
-
     requestAnimationFrame(updatePreloader);
   }
 
@@ -1068,23 +812,11 @@ function initPreloader() {
 
 function dismissPreloader() {
   resetScrollToTop();
-  // 1. Airplane accelerates forward into the sky
+  clearInterval(destTimer);
   preloader.classList.add('preloader-departing');
-
-  // 2. Start hero scene and canvas right as the airplane ascends
-  setTimeout(() => {
-    startScene();
-  }, 400);
-
-  // 3. Dissolve the preloader curtain overlay
-  setTimeout(() => {
-    preloader.classList.add('preloader-done');
-  }, 650);
-
-  // 4. Remove preloader from DOM flow after fade
-  setTimeout(() => {
-    preloader.style.display = 'none';
-  }, 1550);
+  setTimeout(() => preloader.classList.add('preloader-done'), 750);
+  setTimeout(startScene, 1000);
+  setTimeout(() => { preloader.style.display = 'none'; }, 1900);
 }
 
 // --- Editorial Statement Section: Word Illumination & Pinned 3D Destination Deck ---
@@ -1103,20 +835,12 @@ function initStatementSection() {
   if (existingElements.length > 0) {
     statementWords = Array.from(existingElements);
 
-    // Wire up interactive clicks on the inline pills to open planner
+    // Inline pills open the brief with the matching service ready.
+    const pillServices = { flight: 'flight', stay: 'hotel', visa: 'visa' };
     statementText.querySelectorAll('.inline-pill').forEach(pill => {
       pill.addEventListener('click', (e) => {
         e.stopPropagation();
-        const pillType = pill.getAttribute('data-pill');
-        if (form && form.elements.destination) {
-          if (pillType === 'flight') form.elements.destination.value = 'London, UK (First Class)';
-          else if (pillType === 'stay') form.elements.destination.value = 'Zanzibar, Tanzania (Private Villa)';
-          else if (pillType === 'visa') form.elements.destination.value = 'Priority Visa Protocol';
-          else form.elements.destination.value = 'Lagos / Abuja Bespoke Departure';
-        }
-        form.elements.style.value = selectedStyle;
-        result.textContent = '';
-        dialog.showModal();
+        booking.open({ service: pillServices[pill.getAttribute('data-pill')] });
       });
     });
 
@@ -1169,6 +893,9 @@ function setStatementCard(index) {
       card.classList.add('hidden-right');
     }
   });
+
+  const counter = document.getElementById('deck-current');
+  if (counter) counter.textContent = String(currentDeckIndex + 1).padStart(2, '0');
 }
 
 function scrollToCard(index) {
@@ -1323,92 +1050,137 @@ if (document.readyState === 'loading') {
   initStatementDeck();
 }
 
-
-
-
-
-// A scroll-driven photographic accordion, with explicit controls for every scene.
+// Scroll-linked motion: parallax layers, the destination reel and a marquee that leans with speed.
 (() => {
-  const section = document.querySelector('.service-cinema');
-  if (!section) return;
-  const stage = section.querySelector('.cinema-stage');
-  const panels = [...section.querySelectorAll('.cinema-panel')];
+  const quiet = matchMedia('(prefers-reduced-motion: reduce)');
+  const wide = matchMedia('(min-width: 761px)');
+  const layers = [...document.querySelectorAll('[data-parallax]')];
+  const reel = document.querySelector('[data-reel]');
+  const marquee = document.querySelector('.howto-track');
+  const title = document.querySelector('.howto-title');
+  if (title) {
+    const text = title.textContent;
+    let i = 0;
+    title.innerHTML = text.split(' ').map(word => `<span class="word" aria-hidden="true">${[...word].map(ch => `<span class="ch" style="--i:${i++}">${ch}</span>`).join('')}</span>`).join(' ');
+    title.setAttribute('aria-label', text);
+  }
+  let frame = 0, lastY = window.scrollY, skew = 0;
+
+  function draw() {
+    frame = 0;
+    if (quiet.matches) return;
+    const vh = window.innerHeight;
+    layers.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < -200 || rect.top > vh + 200) return;
+      const offset = (rect.top + rect.height / 2 - vh / 2) * Number(el.dataset.parallax);
+      el.style.setProperty('--py', wide.matches ? `${offset.toFixed(1)}px` : '0px');
+    });
+    if (reel) {
+      const rect = reel.parentElement.getBoundingClientRect();
+      const travel = reel.scrollWidth - window.innerWidth;
+      const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height * 6)));
+      reel.style.setProperty('--reel', `${(-progress * travel).toFixed(1)}px`);
+    }
+    const velocity = window.scrollY - lastY;
+    lastY = window.scrollY;
+    skew += (Math.max(-12, Math.min(12, velocity * 0.15)) - skew) * 0.2;
+    if (marquee) marquee.style.setProperty('--skew', `${skew.toFixed(2)}deg`);
+    if (Math.abs(skew) > 0.05) schedule();
+  }
+  function schedule() { if (!frame) frame = requestAnimationFrame(draw); }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  schedule();
+})();
+
+// About eases away as the next section arrives.
+(() => {
   const about = document.querySelector('#about');
   const aboutStage = document.querySelector('.statement-sticky-stage');
   const quiet = matchMedia('(prefers-reduced-motion: reduce)');
-  let active = 0, frame = 0, manualY = null;
   const clamp = n => Math.max(0, Math.min(1, n));
-  function select(index, manual = false) {
-    index = Math.max(0, Math.min(panels.length - 1, index));
-    if (manual) manualY = window.scrollY;
-    active = index;
-    panels.forEach((panel, i) => {
-      panel.classList.toggle('is-active', i === index);
-      panel.querySelector('.cinema-selector').setAttribute('aria-expanded', String(i === index));
-      panel.querySelector('.cinema-detail').inert = i !== index;
-    });
-  }
-  panels.forEach((panel, i) => panel.querySelector('.cinema-selector').addEventListener('click', () => select(i, true)));
+  let frame = 0;
+
   function draw() {
     frame = 0;
-    const rect = section.getBoundingClientRect();
     const height = window.innerHeight;
     if (about && aboutStage) {
       const retreat = clamp((height - about.getBoundingClientRect().bottom) / height);
       aboutStage.style.translate = quiet.matches ? '' : `0 ${-retreat * 80}px`;
     }
-    if (rect.top > height || rect.bottom < 0) return;
-    const travel = section.offsetHeight - stage.offsetHeight;
-    const progress = travel > 0 ? clamp(-rect.top / travel) : 0;
-    if (manualY !== null && Math.abs(window.scrollY - manualY) > 65) manualY = null;
-    // Keep the service open while a visitor reads or operates its controls.
-    const interacting = section.contains(document.activeElement) && document.activeElement.matches(':focus-visible');
-    if (!quiet.matches && travel > 0 && manualY === null && !interacting) {
-      const index = Math.min(3, Math.floor(progress * 4));
-      if (active !== index) select(index);
-    }
-    const entrance = clamp((height - rect.top) / (height * .9));
-    panels.forEach((panel, i) => {
-      const unfolding = quiet.matches ? 1 : clamp((entrance - i * .045) / .84);
-      panel.style.setProperty('--panel-lift', `${(1 - unfolding) * (90 + i * 32)}px`);
-      panel.style.setProperty('--panel-tilt', `${(1 - unfolding) * (i - 1.5) * 3}deg`);
-      panel.style.setProperty('--image-drift', quiet.matches ? '0%' : `${-progress * 6 + i * .5}%`);
-      panel.style.setProperty('--chapter-progress', manualY !== null || quiet.matches || travel <= 0 ? 1 : Math.max(.04, clamp(progress * 4 - i)));
-    });
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(draw); }
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
-  window.addEventListener('load', schedule);
   quiet.addEventListener('change', schedule);
-  select(0);
   schedule();
 })();
 
-// Booking is readable without JavaScript; scrolling adds a subtle arrival only.
+// Sections arrive gently as they scroll into view.
 (() => {
   const year = document.querySelector('#footer-year');
   if (year) year.textContent = new Date().getFullYear();
   const quiet = matchMedia('(prefers-reduced-motion: reduce)');
   if (!('IntersectionObserver' in window) || quiet.matches) return;
+  document.documentElement.classList.add('js-reveal');
+
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add('is-in-view');
       observer.unobserve(entry.target);
     });
-  }, { threshold: .2 });
-  document.querySelectorAll('.booking-line, .booking-intro, .stories-heading, .cinema-heading, .faq-editorial-heading, .invitation-copy, .trusted-featured-card').forEach(element => observer.observe(element));
+  }, { threshold: .15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(element => {
+    const siblings = [...element.parentElement.children].filter(child => child.classList.contains('reveal'));
+    element.style.transitionDelay = `${Math.min(siblings.indexOf(element), 5) * 70}ms`;
+    observer.observe(element);
+  });
+
 })();
 
-// --- Trusted Clients (Reviews) Controller ---
+// Traveller stories: one review at a time, advancing on its own unless the reader is engaged.
 (() => {
-  // Pure CSS marquee and layout handles transitions smoothly.
+  const stage = document.getElementById('quote-stage');
+  if (!stage) return;
+  const quotes = [...stage.querySelectorAll('.quote')];
+  const counter = document.getElementById('quote-index');
+  const quiet = matchMedia('(prefers-reduced-motion: reduce)');
+  const interval = 7000;
+  let index = 0, timer = 0, paused = false;
+
+  function show(next) {
+    index = (next + quotes.length) % quotes.length;
+    quotes.forEach((quote, i) => {
+      quote.hidden = i !== index;
+      quote.classList.toggle('is-active', i === index);
+    });
+    counter.textContent = String(index + 1).padStart(2, '0');
+    restart();
+  }
+  function restart() {
+    clearTimeout(timer);
+    if (quiet.matches || paused) return;
+    timer = setTimeout(() => show(index + 1), interval);
+  }
+  document.querySelectorAll('.quote-nav').forEach(button => button.addEventListener('click', () => show(index + Number(button.dataset.dir))));
+  const region = stage.closest('.reviews-body');
+  const pause = state => { paused = state; restart(); };
+  region.addEventListener('pointerenter', () => pause(true));
+  region.addEventListener('pointerleave', () => pause(false));
+  region.addEventListener('focusin', () => pause(true));
+  region.addEventListener('focusout', () => pause(false));
+
+  let started = false;
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !started) { started = true; show(0); }
+  }, { threshold: .3 }).observe(stage);
 })();
 
 // Keep one FAQ answer open at a time.
 (() => {
-  const rows = [...document.querySelectorAll('.faq-row')];
+  const rows = [...document.querySelectorAll('.faq-item')];
   rows.forEach(row => row.addEventListener('toggle', () => {
     if (!row.open) return;
     rows.forEach(other => { if (other !== row) other.open = false; });
